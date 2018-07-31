@@ -19,30 +19,21 @@ body {
     margin: 0.5em 0.5em 0.5em 0em;
     border: 1px solid #bbbbbb;
     width: 64em;
-    height: 5em;
 }
 #topbar_group1 {
+    display: flex;
+    flex-direction: column;
     margin: 0.1em;
-    height: 4.8em;
     border: 1px solid red;
 }
 #topbar_group1_row1 {
-    float: none;
-    height: 2.4em;
-    overflow: hidden;
+    display: flex;
+    flex-direction: row;
 }
-#topbar_group1_row1 div {
-    float: left;
-}
-#topbar_taxfiler_id_label_container {
-    position: relative;
-    display: inline-block;
-    width: 14em;
-    height: 2.4em;
-}
-#topbar_taxfiler_id_label {
-    display: inline-block;
-    vertical-align: middle;
+.topbar_labelcontainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #taxfiler_id_input {
     margin: 0.2em;
