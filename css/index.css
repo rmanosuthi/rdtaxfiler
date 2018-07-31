@@ -35,6 +35,6 @@ body {
     align-items: center;
     justify-content: center;
 }
-#taxfiler_id_input {
+.topbar_textinput {
     margin: 0.2em;
 }
