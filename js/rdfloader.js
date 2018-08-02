@@ -1,6 +1,7 @@
 var activefile = {};
 var ext_db;
 var breakCharacter = "0124";
+var endedAt = 0;
 
 function readFile(input, mode) {
     var datablock = [];
@@ -10,6 +11,9 @@ function readFile(input, mode) {
             activefile.A = decodeDecimal(datablock, 3, 4);
             activefile.B = decodeDecimal(datablock, 8, 1);
             activefile.C = decodeDecimal(datablock, 10, 13);
+            activefile.D = decodeTIS(datablock, 25, -1);
+            activefile.E = decodeTIS(datablock, endedAt + 2, -1);
+            activefile.F = decodeTIS(datablock, endedAt + 2, -1);
         }
     } else {
         console.log("Unknown file type '" + mode + "', aborting!");
@@ -46,6 +50,7 @@ function decodeDecimal(input, start, length) {
     } else { // indeterminate length
         for (var i = start; i < input.length; i++) {
             if (input[i] == breakCharacter) {
+                endedAt = i - 1;
                 break;
             } else {
                 result += String.fromCharCode(parseInt(input[i], 10));
@@ -58,16 +63,17 @@ function decodeTIS(input, start, length) {
     var result = "";
     if (length > 0) {
         for (var i = start; i < start + length; i++) {
-            if (tismap.keys().includes(input[i]) === true) {
+            if (Object.keys(tismap).includes(input[i]) === true) {
                 result += tismap[input[i]];
             }
         }
     } else { // indeterminate length
         for (var i = start; i < input.length; i++) {
             if (input[i] == breakCharacter) {
+                endedAt = i - 1;
                 break;
             } else {
-                if (tismap.keys().includes(input[i]) === true) {
+                if (Object.keys(tismap).includes(input[i]) === true) {
                     result += tismap[input[i]];
                 }
             }
