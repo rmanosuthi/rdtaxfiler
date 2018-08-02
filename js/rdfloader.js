@@ -54,3 +54,24 @@ function decodeDecimal(input, start, length) {
     }
     return result;
 }
+function decodeTIS(input, start, length) {
+    var result = "";
+    if (length > 0) {
+        for (var i = start; i < start + length; i++) {
+            if (tismap.keys().includes(input[i]) === true) {
+                result += tismap[input[i]];
+            }
+        }
+    } else { // indeterminate length
+        for (var i = start; i < input.length; i++) {
+            if (input[i] == breakCharacter) {
+                break;
+            } else {
+                if (tismap.keys().includes(input[i]) === true) {
+                    result += tismap[input[i]];
+                }
+            }
+        }
+    }
+    return result;
+}
