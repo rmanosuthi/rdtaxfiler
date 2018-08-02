@@ -1,4 +1,8 @@
-var activefile = {};
+var activefile = {
+    D: {},
+    M: {},
+    S: {}
+};
 var ext_db;
 var breakCharacter = "0124";
 var endedAt = 0;
@@ -10,16 +14,16 @@ function readFile(input, mode) {
         if (validate(datablock, mode) == true) {
             switch (mode) {
                 case "D":
-                    activefile.A = decodeDecimal(datablock, 3, 4);
-                    activefile.B = decodeDecimal(datablock, 8, 1);
-                    activefile.C = decodeDecimal(datablock, 10, 13);
-                    activefile.D = decodeTIS(datablock, 25, -1);
-                    activefile.E = decodeTIS(datablock, endedAt + 2, -1);
-                    activefile.F = decodeTIS(datablock, endedAt + 2, -1);
-                    activefile.G = decodeDecimal(datablock, endedAt + 2, 10);
-                    activefile.H = decodeDecimal(datablock, endedAt + 2, -1);
-                    activefile.I = decodeDecimal(datablock, endedAt + 2, -1);
-                    activefile.J = decodeDecimal(datablock, endedAt + 2, 1);
+                    activefile.D.A = decodeDecimal(datablock, 3, 4);
+                    activefile.D.B = decodeDecimal(datablock, 8, 1);
+                    activefile.D.C = decodeDecimal(datablock, 10, 13);
+                    activefile.D.D = decodeTIS(datablock, 25, -1);
+                    activefile.D.E = decodeTIS(datablock, endedAt + 2, -1);
+                    activefile.D.F = decodeTIS(datablock, endedAt + 2, -1);
+                    activefile.D.G = decodeDecimal(datablock, endedAt + 2, 10);
+                    activefile.D.H = decodeDecimal(datablock, endedAt + 2, -1);
+                    activefile.D.I = decodeDecimal(datablock, endedAt + 2, -1);
+                    activefile.D.J = decodeDecimal(datablock, endedAt + 2, 1);
                     break;
                 case "M":
                     break;
@@ -30,7 +34,6 @@ function readFile(input, mode) {
     } else {
         console.log("Unknown file type '" + mode + "', aborting!");
     }
-    ext_db = datablock;
 }
 function chunkBreak(input, output, length) {
     for (var i = 0; i < input.length; i++) {
