@@ -1,5 +1,6 @@
 var activefile = {};
 var ext_db;
+var breakCharacter = "0124";
 
 function readFile(input, mode) {
     var datablock = [];
@@ -38,8 +39,18 @@ function validate(input, mode) {
 }
 function decodeDecimal(input, start, length) {
     var result = "";
-    for (var i = start; i < start + length; i++) {
-        result += String.fromCharCode(parseInt(input[i], 10));
+    if (length > 0) {
+        for (var i = start; i < start + length; i++) {
+            result += String.fromCharCode(parseInt(input[i], 10));
+        }
+    } else { // indeterminate length
+        for (var i = start; i < input.length; i++) {
+            if (input[i] == breakCharacter) {
+                break;
+            } else {
+                result += String.fromCharCode(parseInt(input[i], 10));
+            }
+        }
     }
     return result;
 }
