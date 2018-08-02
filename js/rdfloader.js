@@ -1,38 +1,66 @@
-var activefile = {
+var activeblock = {
     D: {},
     M: {},
     S: {}
 };
+var records = [[], [], [], [], []];
+var chunks = [[], [], []];
+var subchunks = [[], [], []];
 var ext_db;
 var breakCharacter = "0124";
+var entries = [];
 var endedAt = 0;
 
-function readFile(input, mode) {
-    var datablock = [];
-    if (mode == "D" || mode == "M" || mode == "S") {
-        chunkBreak(input, datablock, 4);
-        if (validate(datablock, mode) == true) {
-            switch (mode) {
-                case "D":
-                    activefile.D.A = decodeDecimal(datablock, 3, 4);
-                    activefile.D.B = decodeDecimal(datablock, 8, 1);
-                    activefile.D.C = decodeDecimal(datablock, 10, 13);
-                    activefile.D.D = decodeTIS(datablock, 25, -1);
-                    activefile.D.E = decodeTIS(datablock, endedAt + 2, -1);
-                    activefile.D.F = decodeTIS(datablock, endedAt + 2, -1);
-                    activefile.D.G = decodeDecimal(datablock, endedAt + 2, 10);
-                    activefile.D.H = decodeDecimal(datablock, endedAt + 2, -1);
-                    activefile.D.I = decodeDecimal(datablock, endedAt + 2, -1);
-                    activefile.D.J = decodeDecimal(datablock, endedAt + 2, 1);
-                    break;
-                case "M":
-                    break;
-                case "S":
-                    break;
+function decode(d, m, s) {
+    chunkBreak(d, chunks[0], 4);
+    separateEntries(chunks[0], subchunks[0]);
+    decodeSection(subchunks[0], "D");
+}
+function decodeSection(input, mode) {
+    console.log("Decoding " + input.length + " times");
+    for (var i = 0; i < input.length; i++) {
+        var datablock = input[i];
+        if (mode == "D" || mode == "M" || mode == "S") {
+            if (validate(datablock, mode) == true) {
+                switch (mode) {
+                    case "D":
+                        activeblock.D.A = decodeDecimal(datablock, 3, 4);
+                        activeblock.D.B = decodeDecimal(datablock, 8, 1);
+                        activeblock.D.C = decodeDecimal(datablock, 10, 13);
+                        activeblock.D.D = decodeTIS(datablock, 25, -1);
+                        activeblock.D.E = decodeTIS(datablock, endedAt + 2, -1);
+                        activeblock.D.F = decodeTIS(datablock, endedAt + 2, -1);
+                        activeblock.D.G = decodeDecimal(datablock, endedAt + 2, 10);
+                        activeblock.D.H = decodeDecimal(datablock, endedAt + 2, -1);
+                        activeblock.D.I = decodeDecimal(datablock, endedAt + 2, -1);
+                        activeblock.D.J = decodeDecimal(datablock, endedAt + 2, 1);
+                        addEntry(activeblock.D);
+                        break;
+                    case "M":
+                        break;
+                    case "S":
+                        break;
+                }
             }
+        } else {
+            console.log("Unknown file type '" + mode + "', aborting!");
         }
+    }
+}
+function addEntry(input) {
+    console.log(input.A);
+    if (input.A == "401N") {
+        records[0].push(JSON.parse(JSON.stringify(input)));
+    } else if (input.A == "401S") {
+        records[1].push(JSON.parse(JSON.stringify(input)));
+    } else if (input.A == "4012") {
+        records[2].push(JSON.parse(JSON.stringify(input)));
+    } else if (input.A == "402I") {
+        records[3].push(JSON.parse(JSON.stringify(input)));
+    } else if (input.A == "402E") {
+        records[4].push(JSON.parse(JSON.stringify(input)));
     } else {
-        console.log("Unknown file type '" + mode + "', aborting!");
+        console.log("Invalid record");
     }
 }
 function chunkBreak(input, output, length) {
@@ -41,6 +69,24 @@ function chunkBreak(input, output, length) {
             output[Math.floor((i) / length)] = "";
         }
         output[Math.floor(i / length)] += input[i];
+    }
+}
+function separateEntries(input, output) {
+    var occurrences = [];
+    for (var i = 0; i < input.length; i++) {
+        if (input[i] == breakCharacter &&
+            input[i + 1] == breakCharacter &&
+            input[i + 2] == breakCharacter) {
+                occurrences[occurrences.length] = i;
+                i += 2;
+        }
+    }
+    occurrences[occurrences.length] = input.length;
+    for (var i = 0; i < occurrences.length - 1; i++) {
+        output[i] = [];
+        for (var j = occurrences[i]; j < occurrences[i + 1]; j++) {
+            output[i].push(input[j]);
+        }
     }
 }
 function validate(input, mode) {
