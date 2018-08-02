@@ -8,16 +8,24 @@ function readFile(input, mode) {
     if (mode == "D" || mode == "M" || mode == "S") {
         chunkBreak(input, datablock, 4);
         if (validate(datablock, mode) == true) {
-            activefile.A = decodeDecimal(datablock, 3, 4);
-            activefile.B = decodeDecimal(datablock, 8, 1);
-            activefile.C = decodeDecimal(datablock, 10, 13);
-            activefile.D = decodeTIS(datablock, 25, -1);
-            activefile.E = decodeTIS(datablock, endedAt + 2, -1);
-            activefile.F = decodeTIS(datablock, endedAt + 2, -1);
-            activefile.G = decodeDecimal(datablock, endedAt + 2, 10);
-            activefile.H = decodeDecimal(datablock, endedAt + 2, -1);
-            activefile.I = decodeDecimal(datablock, endedAt + 2, -1);
-            activefile.J = decodeDecimal(datablock, endedAt + 2, 1);
+            switch (mode) {
+                case "D":
+                    activefile.A = decodeDecimal(datablock, 3, 4);
+                    activefile.B = decodeDecimal(datablock, 8, 1);
+                    activefile.C = decodeDecimal(datablock, 10, 13);
+                    activefile.D = decodeTIS(datablock, 25, -1);
+                    activefile.E = decodeTIS(datablock, endedAt + 2, -1);
+                    activefile.F = decodeTIS(datablock, endedAt + 2, -1);
+                    activefile.G = decodeDecimal(datablock, endedAt + 2, 10);
+                    activefile.H = decodeDecimal(datablock, endedAt + 2, -1);
+                    activefile.I = decodeDecimal(datablock, endedAt + 2, -1);
+                    activefile.J = decodeDecimal(datablock, endedAt + 2, 1);
+                    break;
+                case "M":
+                    break;
+                case "S":
+                    break;
+            }
         }
     } else {
         console.log("Unknown file type '" + mode + "', aborting!");
