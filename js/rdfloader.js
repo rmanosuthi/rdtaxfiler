@@ -37,6 +37,9 @@ function decodeSection(input, mode) {
                         addEntry(activeblock.D);
                         break;
                     case "M":
+                        activeblock.M.A = decodeDecimal(datablock, 3, 5);
+                        activeblock.M.B = decodeDecimal(datablock, 11, 13);
+                        activeblock.M.C = decodeDecimal(datablock, )
                         break;
                     case "S":
                         break;
