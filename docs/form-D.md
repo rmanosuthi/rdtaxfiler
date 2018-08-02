@@ -43,6 +43,6 @@ Please refer to the following table:
 
 | Condition | Content for Label J |
 | --------- | ------------------- |
-| Deducted on site | 1 |
+| Deducted at source | 1 |
 | Indefinite payment | 2 |
 | One-time payment | 3 |
