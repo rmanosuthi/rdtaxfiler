@@ -1,6 +1,11 @@
-body {
+html, body {
     margin: 0;
     background-color: #eeeeee;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    font-family: sans-serif;
 }
 #topbar {
     display: flex;
@@ -9,6 +14,7 @@ body {
     background-color: #dddddd;
     width: 100%;
     box-shadow: 0px -2px 6px 0px #000000;
+    z-index: 100;
 }
 #topbar_logo {
     width: 5em;
@@ -17,8 +23,9 @@ body {
 }
 #topbar_container {
     margin: 0.5em 0.5em 0.5em 0em;
+    padding: 0.5em;
     border: 1px solid #bbbbbb;
-    width: 64em;
+    flex: 1;
 }
 #topbar_group1 {
     display: flex;
@@ -37,4 +44,35 @@ body {
 }
 .topbar_textinput {
     margin: 0.2em;
+}
+#bodycontainer {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+#sidebar {
+    width: 12em;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #e5e5e5;
+}
+#sidebar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#sidebar li a {
+    text-decoration: none;
+    padding: 1em;
+    display: block;
+    color: #111111;
+}
+#sidebar li a.active{
+    background-color: #df6f25;
+    color: white;
+}
+#sidebar li a:hover:not(.active) {
+    background-color: #666666;
+    color: white;
 }
