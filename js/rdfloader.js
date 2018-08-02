@@ -14,6 +14,10 @@ function readFile(input, mode) {
             activefile.D = decodeTIS(datablock, 25, -1);
             activefile.E = decodeTIS(datablock, endedAt + 2, -1);
             activefile.F = decodeTIS(datablock, endedAt + 2, -1);
+            activefile.G = decodeDecimal(datablock, endedAt + 2, 10);
+            activefile.H = decodeDecimal(datablock, endedAt + 2, -1);
+            activefile.I = decodeDecimal(datablock, endedAt + 2, -1);
+            activefile.J = decodeDecimal(datablock, endedAt + 2, 1);
         }
     } else {
         console.log("Unknown file type '" + mode + "', aborting!");
@@ -47,6 +51,7 @@ function decodeDecimal(input, start, length) {
         for (var i = start; i < start + length; i++) {
             result += String.fromCharCode(parseInt(input[i], 10));
         }
+        endedAt = start + length - 1;
     } else { // indeterminate length
         for (var i = start; i < input.length; i++) {
             if (input[i] == breakCharacter) {
@@ -67,6 +72,7 @@ function decodeTIS(input, start, length) {
                 result += tismap[input[i]];
             }
         }
+        endedAt = start + length - 1;
     } else { // indeterminate length
         for (var i = start; i < input.length; i++) {
             if (input[i] == breakCharacter) {
