@@ -32,4 +32,4 @@ This component describes the Summary page
 |T|1|char|Unknown|
 |U|1|num|Unknown|
 |V|1|num|Unknown|
-|W|1|*|Unknown|
+|W|1|*|Unknown|Could be sum of all previous labels' decimal values|

@@ -20,7 +20,7 @@ This component contains all the attached pages "ใบแนบ"
 |H|*|num|Amount paid|
 |I|*|num|Tax deducted and delivered|
 |J|1|num|Conditions<sup>3</sup>|
-|K|1|*|Unknown|
+|K|1|*|Sum of all previous labels' decimal values|
 
 <sup>[1]</sup> This is a concatenation of:
 - The decree number (**always** 40 for PND 1)
