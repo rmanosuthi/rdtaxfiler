@@ -1,40 +1,91 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="/css/index.css"/>
-        <script src="/js/rdfloader.js"></script>
-        <script src="/js/jszip.js"></script>
-        <script src="/js/tismap.js"></script>
-    </head>
-    <body>
-        <div id="topbar">
-            <div>
-                <img id="topbar_logo" src="/img/logo.png"/>
-            </div>
-            <div id="topbar_container">
 
-            </div>
+<head>
+    <link rel="stylesheet" href="/css/index.css" />
+    <script src="/js/rdfloader.js"></script>
+    <script src="/js/jszip.js"></script>
+    <script src="/js/tismap.js"></script>
+</head>
+
+<body>
+    <div id="topbar">
+        <div>
+            <img id="topbar_logo" src="/img/logo.png" />
         </div>
-        <div id="bodycontainer">
-            <div class="sidebar">
-                <ul>
-                    <li><a class="active" href="#summary">Summary</a></li>
-                    <li><a href="#attach_1">Attachment 1</a></li>
-                    <li><a href="#attach_2">Attachment 2</a></li>
-                    <li><a href="#attach_3">Attachment 3</a></li>
-                    <li><a href="#attach_4">Attachment 4</a></li>
-                    <li><a href="#attach_5">Attachment 5</a></li>
-                </ul>
-            </div>
-            <div id="mainview">
-                <div class="view" id="view_summary">
-                    <div id="general_infobox">
+        <div id="topbar_container">
 
+        </div>
+    </div>
+    <div id="bodycontainer">
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a class="active" href="#summary">Summary</a>
+                </li>
+                <li>
+                    <a href="#attach_1">Attachment 1</a>
+                </li>
+                <li>
+                    <a href="#attach_2">Attachment 2</a>
+                </li>
+                <li>
+                    <a href="#attach_3">Attachment 3</a>
+                </li>
+                <li>
+                    <a href="#attach_4">Attachment 4</a>
+                </li>
+                <li>
+                    <a href="#attach_5">Attachment 5</a>
+                </li>
+            </ul>
+        </div>
+        <div id="mainview">
+            <div class="view" id="view_summary">
+                <span class="header">General Info</span>
+                <div id="general_infobox">
+                    <div>
+                        <label for="input_id">Please enter your 13-digit tax filer ID</label>
+                        <input type="text" name="input_id" id="input_id" maxlength="13" />
+                    </div>
+                    <div>
+                        <label for="input_branch">Branch</label>
+                        <input type="text" name="input_branch" id="input_branch" maxlength="5" />
+                    </div>
+                    <div>
+                        <form>
+                            <input type="radio" name="filing_occasion" value="normal"> Normal Report
+                            <br>
+                            <input type="radio" name="filing_occasion" value="additional"> Additional, no.
+                            <input type="number" name="filing_additional" id="filing_additional" />
+                        </form>
+                    </div>
+                    <div>
+                        <label for="input_month">Month</label>
+                        <select>
+                            <option value="jan">January</option>
+                            <option value="feb">February</option>
+                            <option value="mar">March</option>
+                            <option value="apr">April</option>
+                            <option value="may">May</option>
+                            <option value="jun">June</option>
+                            <option value="jul">July</option>
+                            <option value="aug">August</option>
+                            <option value="sep">September</option>
+                            <option value="oct">October</option>
+                            <option value="nov">November</option>
+                            <option value="dec">December</option>
+                        </select>
+                        <label for="input_year">Year</label>
+                        <input type="text" name="input_year" id="input_year" maxlength="4" />
                     </div>
                 </div>
-            </div>
-            <div class="sidebar">
-                
+                <span class="header">Table</span>
             </div>
         </div>
-    </body>
+        <div class="sidebar">
+
+        </div>
+    </div>
+</body>
+
 </html>
