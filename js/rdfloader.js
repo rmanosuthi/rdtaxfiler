@@ -283,3 +283,31 @@ function update_ui() {
         document.getElementById("summary_table").rows[i + 1].cells[4].innerHTML = currentfile.summary.overview[i].total_tax_due;
     }
 }
+function addRow(attachment_num) {
+    /*
+        <th>Entry</th>
+        <th>Tax filer ID</th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Tax</th>
+        <th>Conditions</th>
+    */
+    if (attachment_num == 0) {
+        var newrow = document.getElementById("attachment_table_1").insertRow();
+        var tax_filer_id_input = document.createElement("input")
+        tax_filer_id_input.setAttribute("type", "text");
+        tax_filer_id_input.style.margin = "0.2em";
+        for (var i = 0; i < 7; i++) {
+            newrow.insertCell(i);
+        }
+        newrow.cells[0].innerHTML = document.getElementById("attachment_table_1").rows.length - 1;
+        newrow.cells[1].appendChild(tax_filer_id_input);
+    }
+}
+
+window.onload = function() {
+    document.getElementById("attachment_table_1_addrow").addEventListener("click", function() {
+        addRow(0);
+    });
+};
