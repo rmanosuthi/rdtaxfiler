@@ -34,12 +34,32 @@ function decodeSection(input, mode) {
                         activeblock.D.H = decodeDecimal(datablock, endedAt + 2, -1);
                         activeblock.D.I = decodeDecimal(datablock, endedAt + 2, -1);
                         activeblock.D.J = decodeDecimal(datablock, endedAt + 2, 1);
-                        addEntry(activeblock.D);
+                        store(activeblock.D, "D");
                         break;
                     case "M":
                         activeblock.M.A = decodeDecimal(datablock, 3, 5);
                         activeblock.M.B = decodeDecimal(datablock, 11, 13);
-                        activeblock.M.C = decodeDecimal(datablock, )
+                        activeblock.M.C = decodeDecimal(datablock, 25, 1);
+                        activeblock.M.D = decodeDecimal(datablock, 27, 5);
+                        activeblock.M.E = decodeDecimal(datablock, 33, 1);
+                        activeblock.M.F = decodeDecimal(datablock, 35, -1);
+                        activeblock.M.G = decodeDecimal(datablock, endedAt + 2, 4);
+                        activeblock.M.H = decodeDecimal(datablock, endedAt + 2, -1);
+                        activeblock.M.I = decodeDecimal(datablock, endedAt + 2, 10);
+                        activeblock.M.J = decodeDecimal(datablock, endedAt + 2, -1);
+                        activeblock.M.K = decodeDecimal(datablock, endedAt + 2, -1);
+                        activeblock.M.L = decodeDecimal(datablock, endedAt + 2, -1);
+                        activeblock.M.M = decodeDecimal(datablock, endedAt + 3, -1);
+                        activeblock.M.N = decodeDecimal(datablock, endedAt + 2, -1);
+                        activeblock.M.O = decodeDecimal(datablock, endedAt + 3, -1);
+                        activeblock.M.P = decodeDecimal(datablock, endedAt + 2, 2);
+                        activeblock.M.Q = decodeDecimal(datablock, endedAt + 2, 1);
+                        activeblock.M.R = decodeDecimal(datablock, endedAt + 6, 1);
+                        activeblock.M.S = decodeDecimal(datablock, endedAt + 2, 1);
+                        activeblock.M.T = decodeDecimal(datablock, endedAt + 3, 1);
+                        activeblock.M.U = decodeDecimal(datablock, endedAt + 2, 1);
+                        activeblock.M.V = decodeDecimal(datablock, endedAt + 2, 1);
+                        store(activeblock.M, "M");
                         break;
                     case "S":
                         break;
@@ -50,20 +70,22 @@ function decodeSection(input, mode) {
         }
     }
 }
-function addEntry(input) {
-    console.log(input.A);
-    if (input.A == "401N") {
-        records[0].push(JSON.parse(JSON.stringify(input)));
-    } else if (input.A == "401S") {
-        records[1].push(JSON.parse(JSON.stringify(input)));
-    } else if (input.A == "4012") {
-        records[2].push(JSON.parse(JSON.stringify(input)));
-    } else if (input.A == "402I") {
-        records[3].push(JSON.parse(JSON.stringify(input)));
-    } else if (input.A == "402E") {
-        records[4].push(JSON.parse(JSON.stringify(input)));
-    } else {
-        console.log("Invalid record");
+function store(input, mode) {
+    if (mode == "D") {
+        console.log(input.A);
+        if (input.A == "401N") {
+            records[0].push(JSON.parse(JSON.stringify(input)));
+        } else if (input.A == "401S") {
+            records[1].push(JSON.parse(JSON.stringify(input)));
+        } else if (input.A == "4012") {
+            records[2].push(JSON.parse(JSON.stringify(input)));
+        } else if (input.A == "402I") {
+            records[3].push(JSON.parse(JSON.stringify(input)));
+        } else if (input.A == "402E") {
+            records[4].push(JSON.parse(JSON.stringify(input)));
+        } else {
+            console.log("Invalid record");
+        }
     }
 }
 function chunkBreak(input, output, length) {
