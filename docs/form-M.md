@@ -14,8 +14,8 @@ This component describes the Summary page
 |B|13|num|Tax filer ID<sup>1</sup>|
 |C|1|char|Form variant<sup>2</sup>|
 |D|5|num|Branch|
-|E|1|num|Unknown|
-|F|1|month|Month|
+|E|1|num|Unknown|Could be filing number|
+|F|*|month|Month|Months less than 10 do not have a leading zero|
 |G|4|year|Year|
 |H|*|*|Book name|
 |I|10|date|Date the book is filed|ISO-8601|
@@ -24,7 +24,7 @@ This component describes the Summary page
 |L|*|num|Total tax due|
 |M|*|num|Total tax due|Duplicate of L|
 |N|*|num|Total tax due|Duplicate of L|
-|O|*|num|Unknown|
+|O|*|num|Program version|Default: 5.10|
 |P|2|num|Unknown|
 |Q|1|num|Unknown|
 |R|1|num|Unknown|
