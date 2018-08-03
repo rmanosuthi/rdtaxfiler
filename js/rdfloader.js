@@ -4,7 +4,21 @@ var activeblock = {
     S: {}
 };
 var currentfile = {
-    summary: {},
+    summary: {
+        pnd_ver: "",
+        taxfiler_id: "",
+        form_variant: "",
+        branch: "",
+        filing_no: "",
+        filing_month: "",
+        filing_year: "",
+        book_name: "",
+        book_filedate: "",
+        total_transactions: "",
+        total_income: "",
+        total_tax_due: "",
+        program_ver: ""
+    },
     records: [[], [], [], [], []]
 };
 var chunks = [[], [], []];
@@ -100,7 +114,21 @@ function store(input, mode, table) {
             console.log("Invalid record");
         }
     } else if (mode == "M") {
-        table.summary = JSON.parse(JSON.stringify(input));
+        table.summary = {
+            pnd_ver: input.A,
+            taxfiler_id: input.B,
+            form_variant: input.C,
+            branch: input.D,
+            filing_no: input.E,
+            filing_month: input.F,
+            filing_year: input.G,
+            book_name: input.H,
+            book_filedate: input.I,
+            total_transactions: input.J,
+            total_income: input.K,
+            total_tax_due: input.L,
+            program_ver: input.O
+        };
     }
     cleanup();
 }
