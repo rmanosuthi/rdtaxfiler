@@ -17,9 +17,12 @@ var endedAt = 0;
 function decode(d, m, s) {
     chunkBreak(d, chunks[0], 4);
     chunkBreak(m, chunks[1], 4);
+    chunkBreak(s, chunks[2], 4);
     separateEntries(chunks[0], subchunks[0]);
+    separateEntries(chunks[2], subchunks[2]);
     decodeSection(subchunks[0], "D");
     decodeSection(chunks[1], "M");
+    decodeSection(subchunks[2], "S");
 }
 function decodeSection(input, mode) {
     switch (mode) {
@@ -40,36 +43,45 @@ function decodeSection(input, mode) {
                 store(activeblock.D, "D", currentfile);
             }
             break;
-            case "M":
-                var datablock = input;
-                activeblock.M.A = decodeDecimal(datablock, 3, 5);
-                activeblock.M.B = decodeDecimal(datablock, 11, 13);
-                activeblock.M.C = decodeDecimal(datablock, 25, 1);
-                activeblock.M.D = decodeDecimal(datablock, 27, 5);
-                activeblock.M.E = decodeDecimal(datablock, 33, 1);
-                activeblock.M.F = decodeDecimal(datablock, 35, -1);
-                activeblock.M.G = decodeDecimal(datablock, endedAt + 2, 4);
-                activeblock.M.H = decodeDecimal(datablock, endedAt + 2, -1);
-                activeblock.M.I = decodeDecimal(datablock, endedAt + 2, 10);
-                activeblock.M.J = decodeDecimal(datablock, endedAt + 2, -1);
-                activeblock.M.K = decodeDecimal(datablock, endedAt + 2, -1);
-                activeblock.M.L = decodeDecimal(datablock, endedAt + 2, -1);
-                activeblock.M.M = decodeDecimal(datablock, endedAt + 3, -1);
-                activeblock.M.N = decodeDecimal(datablock, endedAt + 2, -1);
-                activeblock.M.O = decodeDecimal(datablock, endedAt + 3, -1);
-                activeblock.M.P = decodeDecimal(datablock, endedAt + 14, 2);
-                activeblock.M.Q = decodeDecimal(datablock, endedAt + 2, 1);
-                activeblock.M.R = decodeDecimal(datablock, endedAt + 6, 1);
-                activeblock.M.S = decodeDecimal(datablock, endedAt + 2, 1);
-                activeblock.M.T = decodeDecimal(datablock, endedAt + 3, 1);
-                activeblock.M.U = decodeDecimal(datablock, endedAt + 2, 1);
-                activeblock.M.V = decodeDecimal(datablock, endedAt + 2, 1);
-                store(activeblock.M, "M", currentfile);
-                break;
-            case "S":
-                break;
+        case "M":
+            var datablock = input;
+            activeblock.M.A = decodeDecimal(datablock, 3, 5);
+            activeblock.M.B = decodeDecimal(datablock, 11, 13);
+            activeblock.M.C = decodeDecimal(datablock, 25, 1);
+            activeblock.M.D = decodeDecimal(datablock, 27, 5);
+            activeblock.M.E = decodeDecimal(datablock, 33, 1);
+            activeblock.M.F = decodeDecimal(datablock, 35, -1);
+            activeblock.M.G = decodeDecimal(datablock, endedAt + 2, 4);
+            activeblock.M.H = decodeDecimal(datablock, endedAt + 2, -1);
+            activeblock.M.I = decodeDecimal(datablock, endedAt + 2, 10);
+            activeblock.M.J = decodeDecimal(datablock, endedAt + 2, -1);
+            activeblock.M.K = decodeDecimal(datablock, endedAt + 2, -1);
+            activeblock.M.L = decodeDecimal(datablock, endedAt + 2, -1);
+            activeblock.M.M = decodeDecimal(datablock, endedAt + 3, -1);
+            activeblock.M.N = decodeDecimal(datablock, endedAt + 2, -1);
+            activeblock.M.O = decodeDecimal(datablock, endedAt + 3, -1);
+            activeblock.M.P = decodeDecimal(datablock, endedAt + 14, 2);
+            activeblock.M.Q = decodeDecimal(datablock, endedAt + 2, 1);
+            activeblock.M.R = decodeDecimal(datablock, endedAt + 6, 1);
+            activeblock.M.S = decodeDecimal(datablock, endedAt + 2, 1);
+            activeblock.M.T = decodeDecimal(datablock, endedAt + 3, 1);
+            activeblock.M.U = decodeDecimal(datablock, endedAt + 2, 1);
+            activeblock.M.V = decodeDecimal(datablock, endedAt + 2, 1);
+            store(activeblock.M, "M", currentfile);
+            break;
+        case "S":
+            console.log("Decoding " + input.length + " times");
+            for (var i = 0; i < input.length; i++) {
+                var datablock = input[i];
+                activeblock.S.A = decodeDecimal(datablock, 3, 4);
+                activeblock.S.B = decodeDecimal(datablock, 8, 1);
+                activeblock.S.C = decodeDecimal(datablock, 10, -1);
+                activeblock.S.D = decodeTIS(datablock, endedAt + 2, -1);
+                store(activeblock.S, "S", currentfile);
             }
-        }
+            break;
+    }
+}
 
 function store(input, mode, table) {
     if (mode == "D") {
@@ -90,6 +102,15 @@ function store(input, mode, table) {
     } else if (mode == "M") {
         table.summary = JSON.parse(JSON.stringify(input));
     }
+    cleanup();
+}
+function cleanup() {
+    endedAt = 0;
+    activeblock = {
+        D: {},
+        M: {},
+        S: {}
+    };
 }
 function chunkBreak(input, output, length) {
     for (var i = 0; i < input.length; i++) {
