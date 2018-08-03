@@ -54,15 +54,15 @@
                     </div>
                     <div>
                         <form>
-                            <input type="radio" name="filing_occasion" value="normal"> Normal Report
+                            <input type="radio" name="filing_occasion" id="filing_occasion_normal" value="normal"> Normal Report
                             <br>
-                            <input type="radio" name="filing_occasion" value="additional"> Additional, no.
+                            <input type="radio" name="filing_occasion" id="filing_occasion_additional" value="additional"> Additional, no.
                             <input type="number" name="filing_additional" id="filing_additional" />
                         </form>
                     </div>
                     <div>
                         <label for="input_month">Month</label>
-                        <select>
+                        <select id="input_month">
                             <option value="jan">January</option>
                             <option value="feb">February</option>
                             <option value="mar">March</option>
@@ -82,7 +82,7 @@
                 </div>
                 <span class="header">Table</span>
                 <div id="summary_tablediv">
-                    <table>
+                    <table id="summary_table">
                         <tr>
                             <th>Section</th>
                             <th style="width: 32em; min-width: 8em;">Description</th>

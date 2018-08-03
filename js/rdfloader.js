@@ -17,7 +17,14 @@ var currentfile = {
         total_transactions: "",
         total_income: "",
         total_tax_due: "",
-        program_ver: ""
+        program_ver: "",
+        overview: [
+            {entries: "", total_income: "", total_tax_due: ""},
+            {entries: "", total_income: "", total_tax_due: ""},
+            {entries: "", total_income: "", total_tax_due: ""},
+            {entries: "", total_income: "", total_tax_due: ""},
+            {entries: "", total_income: "", total_tax_due: ""}
+        ]
     },
     records: [[], [], [], [], []]
 };
@@ -37,6 +44,7 @@ function decode(d, m, s) {
     decodeSection(subchunks[0], "D");
     decodeSection(chunks[1], "M");
     decodeSection(subchunks[2], "S");
+    update_ui();
 }
 function decodeSection(input, mode) {
     switch (mode) {
@@ -127,10 +135,45 @@ function store(input, mode, table) {
             total_transactions: input.J,
             total_income: input.K,
             total_tax_due: input.L,
-            program_ver: input.O
+            program_ver: input.O,
+            overview: table.summary.overview
         };
+    } else if (mode == "S") {
+        if (input.A == "401N") {
+            table.summary.overview[0] = {
+                entries: input.B,
+                total_income: input.C,
+                total_tax_due: input.D
+            };
+        } else if (input.A == "401S") {
+            table.summary.overview[1] = {
+                entries: input.B,
+                total_income: input.C,
+                total_tax_due: input.D
+            };
+        } else if (input.A == "4012") {
+            table.summary.overview[2] = {
+                entries: input.B,
+                total_income: input.C,
+                total_tax_due: input.D
+            };
+        } else if (input.A == "402I") {
+            table.summary.overview[3] = {
+                entries: input.B,
+                total_income: input.C,
+                total_tax_due: input.D
+            };
+        } else if (input.A == "402E") {
+            table.summary.overview[4] = {
+                entries: input.B,
+                total_income: input.C,
+                total_tax_due: input.D
+            };
+        } else {
+            console.log("Invalid record");
+        }
     }
-    cleanup();
+    //cleanup();
 }
 function cleanup() {
     endedAt = 0;
@@ -220,4 +263,23 @@ function decodeTIS(input, start, length) {
         }
     }
     return result;
+}
+function update_ui() {
+    document.getElementById("input_id").value = currentfile.summary.taxfiler_id;
+    document.getElementById("input_branch").value = currentfile.summary.branch;
+    if (currentfile.summary.filing_no == "0") {
+        document.getElementById("filing_occasion_normal").checked = true;
+        document.getElementById("filing_occasion_additional").checked = false;
+    } else {
+        document.getElementById("filing_occasion_normal").checked = false;
+        document.getElementById("filing_occasion_additional").checked = true;
+        document.getElementById("filing_additional").value = parseInt(currentfile.summary.filing_no);
+    }
+    document.getElementById("input_month").selectedIndex = parseInt(currentfile.summary.filing_month) - 1;
+    document.getElementById("input_year").value = currentfile.summary.filing_year;
+    for (var i = 0; i < currentfile.summary.overview.length; i++) {
+        document.getElementById("summary_table").rows[i + 1].cells[2].innerHTML = currentfile.summary.overview[i].entries;
+        document.getElementById("summary_table").rows[i + 1].cells[3].innerHTML = currentfile.summary.overview[i].total_income;
+        document.getElementById("summary_table").rows[i + 1].cells[4].innerHTML = currentfile.summary.overview[i].total_tax_due;
+    }
 }
