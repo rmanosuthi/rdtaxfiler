@@ -295,14 +295,19 @@ function addRow(attachment_num) {
     */
     if (attachment_num == 0) {
         var newrow = document.getElementById("attachment_table_1").insertRow();
+        var field_store = [];
         var tax_filer_id_input = document.createElement("input")
         tax_filer_id_input.setAttribute("type", "text");
         tax_filer_id_input.style.margin = "0.2em";
         for (var i = 0; i < 7; i++) {
             newrow.insertCell(i);
+            if (i > 0) {
+                field_store[i] = document.createElement("input");
+                field_store[i].setAttribute("type", "text");
+                newrow.cells[i].appendChild(field_store[i]);
+            }
         }
         newrow.cells[0].innerHTML = document.getElementById("attachment_table_1").rows.length - 1;
-        newrow.cells[1].appendChild(tax_filer_id_input);
     }
 }
 
