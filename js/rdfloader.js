@@ -283,7 +283,12 @@ function update_ui() {
         document.getElementById("summary_table").rows[i + 1].cells[4].innerHTML = currentfile.summary.overview[i].total_tax_due;
     }
 }
+function addRow(form) {}
 
 window.onload = function() {
-    
+    for (var i = 0; i < 1; i++) {
+        this.document.getElementById("attachment_" + i.toString() + "_addrow").addEventListener("onclick", function(event) {
+            addRow(i);
+        });
+    }
 };
