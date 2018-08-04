@@ -167,9 +167,9 @@ html, body {
     font-size: 1em;
     font-style: normal;
     font-weight: lighter;
-    margin: 0em 0em 0em 3em;
+    margin: 0em 0em 0em 3.2em;
     padding-top: 0.5em;
-    padding-bottom: 1em;
+    padding-bottom: 1.5em;
     text-transform: uppercase;
     color: #444444;
 }
@@ -187,6 +187,7 @@ html, body {
 .attachment_table_body {
     display: flex;
     flex-direction: column;
+    margin-bottom: 1em;
 }
 .attachment_table_row {
     display: flex;
@@ -206,7 +207,7 @@ html, body {
 }
 
 .attachment_table_row span {
-    padding: 1em 0.5em 1em 0.5em;
+    padding: 0.8em 0.5em 0.8em 0.5em;
     white-space: nowrap;
 }
 .attachment_table_row span > input {
@@ -226,4 +227,4 @@ html, body {
 .attachment_table span:nth-of-type(6) {width: 5em;}
 .attachment_table span:nth-of-type(7) {width: 5em;}
 .attachment_table span:nth-of-type(8) {width: 5em;}
-.attachment_table span:nth-of-type(9) {width: auto;}
+.attachment_table span:nth-of-type(9) {width: 5em;}
