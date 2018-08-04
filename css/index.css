@@ -148,36 +148,3 @@ html, body {
 #summary_tablediv tr:nth-child(even) {
     background-color: #dadada;
 }
-.table_scroll {
-    margin-top: 2em;
-    border: 1px solid black;
-    flex-grow: 1;
-    min-height: 8em;
-    height: 32em;
-    overflow-y: auto;
-    overflow-x: auto;
-}
-.attachment_table {
-    border-collapse: collapse;
-    width: 100%;
-    min-width: 64em;
-}
-.attachment_table th {
-    padding: 1em;
-}
-.attachment_table th, td {
-    text-align: left;
-}
-.attachment_table td {
-    border: 1px solid #999999;
-    padding: 0em;
-}
-.attachment_table th {
-    background-color: #f0a574;
-}
-.attachment_table tr:nth-child(even) {
-    background-color: #dadada;
-}
-.attachment_table tr:hover {
-    background-color: #bbbbbb;
-}
