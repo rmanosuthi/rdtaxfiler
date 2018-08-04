@@ -1,7 +1,8 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <script src="/js/rdfloader.js"></script>
     <script src="/js/jszip.js"></script>
     <script src="/js/tismap.js"></script>
@@ -41,7 +42,7 @@
             </ul>
         </div>
         <div id="mainview">
-            <div class="view" id="view_summary">
+            <div class="view" id="view_summary" style="display: none;">
                 <span class="header">General Info</span>
                 <div id="general_infobox">
                     <div>
@@ -100,8 +101,8 @@
                         <tr>
                             <td>40 (1)</td>
                             <td>Income under Section 40 (1): salaries, wages, etc. in the case where the Revenue Department has
-                                given approval to apply 3% withholding tax<br>
-                                (in accordance with document no. ... dated ...)
+                                given approval to apply 3% withholding tax
+                                <br> (in accordance with document no. ... dated ...)
                             </td>
                             <td></td>
                             <td></td>
@@ -109,7 +110,8 @@
                         </tr>
                         <tr>
                             <td>40 (1) (2)</td>
-                            <td>Income under Section 40 (1) (2) in the case of single payment made by employer by reason of termination of employment</td>
+                            <td>Income under Section 40 (1) (2) in the case of single payment made by employer by reason of termination
+                                of employment</td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -123,7 +125,8 @@
                         </tr>
                         <tr>
                             <td>40 (1)</td>
-                            <td>Income under Section 40 (2) where recipient is <b>not</b> a resident of Thailand</td>
+                            <td>Income under Section 40 (2) where recipient is
+                                <b>not</b> a resident of Thailand</td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -131,10 +134,21 @@
                     </table>
                 </div>
             </div>
-            <div class="view" id="view_attachment_one" style="display: none;">
-                <!-- <span class="header">Income under Section 40 (1): salaries, wages, etc. in general cases</span> -->
-                <div class="card">
-
+            <div class="view view_attachment">
+                <h1>Income under Section 40 (1)</h1>
+                <h2>salaries, wages, etc. in general cases</h2>
+                <div class="attachment_table">
+                    <div class="attachment_table_head">
+                        <span>Entry</span>
+                        <span>ID</span>
+                        <span>Prefix</span>
+                        <span>First Name</span>
+                        <span>Last Name</span>
+                        <span>Date</span>
+                        <span>Amount</span>
+                        <span>Tax</span>
+                        <span>Conditions</span>
+                    </div>
                 </div>
             </div>
         </div>
