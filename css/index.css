@@ -173,18 +173,20 @@ html, body {
     text-transform: uppercase;
     color: #444444;
 }
-
-.attachment_table {
-    flex-grow: 1 0;
+#table_wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    overflow-x: auto;
     margin-left: 3em;
     margin-right: 3em;
+}
+.attachment_table {
+    display: flex;
+    flex-direction: column;
 }
 .attachment_table_body {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
 }
 .attachment_table_row {
     display: flex;
@@ -195,31 +197,32 @@ html, body {
     display: flex;
     flex-direction: row;
     border-bottom: 1px solid #dddddd;
-    overflow: hidden;
 }
 .attachment_table_head span {
-    padding: 1em;
+    padding: 1em 0.5em 1em 0.5em;
     font-weight: bolder;
     color: #888888;
     white-space: nowrap;
-    width: 0;
 }
 
 .attachment_table_row span {
-    padding: 1em;
+    padding: 1em 0.5em 1em 0.5em;
     white-space: nowrap;
-    width: 0;
 }
 .attachment_table_row span > input {
     width: 1px;
     height: 1px;
 }
-.attachment_table span:nth-of-type(1) {width: 1em;}
-.attachment_table span:nth-of-type(2) {min-width: 8em; flex-grow: 6;}
-.attachment_table span:nth-of-type(3) {flex-grow: 5;}
-.attachment_table span:nth-of-type(4) {flex-grow: 10;}
-.attachment_table span:nth-of-type(5) {flex-grow: 10;}
-.attachment_table span:nth-of-type(6) {flex-grow: 5;}
-.attachment_table span:nth-of-type(7) {flex-grow: 8;}
-.attachment_table span:nth-of-type(8) {flex-grow: 8;}
-.attachment_table span:nth-of-type(9) {flex-grow: 5;}
+.attachment_table span:nth-of-type(1) {
+    width: 2em;
+    vertical-align: center;
+    text-align: center;
+}
+.attachment_table span:nth-of-type(2) {width: 13em;}
+.attachment_table span:nth-of-type(3) {width: 5em;}
+.attachment_table span:nth-of-type(4) {width: 10em;}
+.attachment_table span:nth-of-type(5) {width: 10em;}
+.attachment_table span:nth-of-type(6) {width: 5em;}
+.attachment_table span:nth-of-type(7) {width: 5em;}
+.attachment_table span:nth-of-type(8) {width: 5em;}
+.attachment_table span:nth-of-type(9) {width: auto;}
