@@ -19,11 +19,11 @@ var currentfile = {
         total_tax_due: "",
         program_ver: "",
         overview: [
-            {entries: "", total_income: "", total_tax_due: ""},
-            {entries: "", total_income: "", total_tax_due: ""},
-            {entries: "", total_income: "", total_tax_due: ""},
-            {entries: "", total_income: "", total_tax_due: ""},
-            {entries: "", total_income: "", total_tax_due: ""}
+            { entries: "", total_income: "", total_tax_due: "" },
+            { entries: "", total_income: "", total_tax_due: "" },
+            { entries: "", total_income: "", total_tax_due: "" },
+            { entries: "", total_income: "", total_tax_due: "" },
+            { entries: "", total_income: "", total_tax_due: "" }
         ]
     },
     records: [[], [], [], [], []]
@@ -283,12 +283,31 @@ function update_ui() {
         document.getElementById("summary_table").rows[i + 1].cells[4].innerHTML = currentfile.summary.overview[i].total_tax_due;
     }
 }
-function addRow(form) {}
+function addRow(form) {
+    var table = document.getElementById("t" + form);
+    var newrow = table.insertRow();
+    var cells = [];
+    var cellContent = [];
+    for (var i = 0; i < 9; i++) {
+        cells[i] = newrow.insertCell(i);
+        if (i == 0) {
+            cellContent[i] = document.createElement("span");
+            cellContent[i].innerHTML = table.rows.length - 1;
+        } else {
+            cellContent[i] = document.createElement("input");
+            cellContent[i].setAttribute("type", "text");
+        }
+        cells[i].appendChild(cellContent[i]);
+    }
+}
 
-window.onload = function() {
-    for (var i = 0; i < 1; i++) {
-        this.document.getElementById("attachment_" + i.toString() + "_addrow").addEventListener("onclick", function(event) {
+window.onload = function () {
+    for (let i = 1; i < 2; i++) {
+        console.log(i);
+        var button = document.getElementById("attachment_" + i.toString() + "_addrow");
+        button.addEventListener("click", function (event) {
             addRow(i);
+            console.log("Added row");
         });
     }
 };
