@@ -294,7 +294,7 @@ function addRow(form) {
         dateblock[i] = document.createElement("input");
         dateblock[i].setAttribute("type", "text");
         dateblock[i].setAttribute("maxlength", dateblocklength[i]);
-        dateblock[i].addEventListener("keypress", function(event) {
+        dateblock[i].addEventListener("keypress", function (event) {
             let charCode = event.charCode;
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
                 event.preventDefault();
@@ -322,9 +322,48 @@ function addRow(form) {
         cells[j].appendChild(cellContent[j]);
     }
 }
-
+function onlyShow(page) {
+    let main = document.getElementById("view_summary");
+    for (let i = 1; i < 6; i++) {
+        console.log(i);
+        if (page == 0) {
+            main.style.display = "flex";
+            document.getElementById("at" + i).style.display = "none";
+        } else {
+            main.style.display = "none";
+            if (i == page) {
+                document.getElementById("at" + i).style.display = "flex";
+            } else {
+                document.getElementById("at" + i).style.display = "none";
+            }
+        }
+    }
+}
+function navigate() {
+    switch (window.location.hash) {
+        case "#attach_1":
+            onlyShow(1);
+            break;
+        case "#attach_2":
+            onlyShow(2);
+            break;
+        case "#attach_3":
+            onlyShow(3);
+            break;
+        case "#attach_4":
+            onlyShow(4);
+            break;
+        case "#attach_5":
+            onlyShow(5);
+            break;
+        default:
+            onlyShow(0);
+            break;
+    }
+}
 window.onload = function () {
-    for (let i = 1; i < 2; i++) {
+    navigate();
+    for (let i = 1; i < 6; i++) {
         addRow(i);
         var button = document.getElementById("attachment_" + i.toString() + "_addrow");
         button.addEventListener("click", function (event) {
@@ -332,4 +371,5 @@ window.onload = function () {
             console.log("Added row");
         });
     }
+    window.addEventListener('hashchange', navigate);
 };
