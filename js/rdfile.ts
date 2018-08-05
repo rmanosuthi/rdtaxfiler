@@ -1,5 +1,5 @@
 // refer to '/docs'
-interface RDfile {
+class RDRawfile {
     D: {
         A: string;
         B: string;
@@ -45,4 +45,21 @@ interface RDfile {
         D: string;
         E: string;
     };
+    constructor() {}
+}
+class RDFile {
+    Summary: {
+        PndVersion: number;
+        TaxFilerID: number;
+        FormVariant: number;
+        Branch: number;
+        FilingNo: number;
+        FilingMonth: number;
+        FilingYear: number;
+        BookName: string;
+        BookDate: Date;
+        Version: string;
+    };
+    Records: Array<Array<RDRecord>>;
+    constructor() {}
 }
