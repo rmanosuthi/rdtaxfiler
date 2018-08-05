@@ -288,22 +288,44 @@ function addRow(form) {
     var newrow = table.insertRow();
     var cells = [];
     var cellContent = [];
-    for (var i = 0; i < 9; i++) {
-        cells[i] = newrow.insertCell(i);
-        if (i == 0) {
-            cellContent[i] = document.createElement("span");
-            cellContent[i].innerHTML = table.rows.length - 1;
+    var dateblocklength = [2, 2, 4];
+    var dateblock = [];
+    for (let i = 0; i < 3; i++) {
+        dateblock[i] = document.createElement("input");
+        dateblock[i].setAttribute("type", "text");
+        dateblock[i].setAttribute("maxlength", dateblocklength[i]);
+        dateblock[i].addEventListener("keypress", function(event) {
+            let charCode = event.charCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                event.preventDefault();
+            }
+        });
+        dateblock[i].style.width = dateblocklength[i].toString() + "em";
+    }
+    for (var j = 0; j < 9; j++) {
+        cells[j] = newrow.insertCell(j);
+        if (j == 0) {
+            cellContent[j] = document.createElement("span");
+            cellContent[j].innerHTML = table.rows.length - 1;
+        } else if (j == 5) {
+            cellContent[j] = document.createElement("div");
+            for (var k = 0; k < 3; k++) {
+                cellContent[j].appendChild(dateblock[k]);
+                if (k != 2) {
+                    cellContent[j].innerHTML += "/";
+                }
+            }
         } else {
-            cellContent[i] = document.createElement("input");
-            cellContent[i].setAttribute("type", "text");
+            cellContent[j] = document.createElement("input");
+            cellContent[j].setAttribute("type", "text");
         }
-        cells[i].appendChild(cellContent[i]);
+        cells[j].appendChild(cellContent[j]);
     }
 }
 
 window.onload = function () {
     for (let i = 1; i < 2; i++) {
-        console.log(i);
+        addRow(i);
         var button = document.getElementById("attachment_" + i.toString() + "_addrow");
         button.addEventListener("click", function (event) {
             addRow(i);

@@ -215,7 +215,7 @@ html, body {
 .attachment_table th:nth-of-type(3) {width: 4em;}
 .attachment_table th:nth-of-type(4) {width: 7em;}
 .attachment_table th:nth-of-type(5) {width: 9em;}
-.attachment_table th:nth-of-type(6) {width: 8em;}
+.attachment_table th:nth-of-type(6) {width: 10em;}
 .attachment_table th:nth-of-type(7) {width: 8em;}
 .attachment_table th:nth-of-type(8) {width: 8em;}
 .attachment_table th:nth-of-type(9) {width: 5em;}
@@ -233,7 +233,7 @@ html, body {
 .attachment_table td:nth-of-type(3) {width: 4em;}
 .attachment_table td:nth-of-type(4) {width: 7em;}
 .attachment_table td:nth-of-type(5) {width: 9em;}
-.attachment_table td:nth-of-type(6) {width: 8em;}
+.attachment_table td:nth-of-type(6) {width: 10em;}
 .attachment_table td:nth-of-type(7) {width: 8em;}
 .attachment_table td:nth-of-type(8) {width: 8em;}
 .attachment_table td:nth-of-type(9) {width: 5em;}
