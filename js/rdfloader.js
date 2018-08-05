@@ -36,6 +36,7 @@ var entries = [];
 var endedAt = 0;
 
 function decode(d, m, s) {
+    cleanup();
     chunkBreak(d, chunks[0], 4);
     chunkBreak(m, chunks[1], 4);
     chunkBreak(s, chunks[2], 4);
@@ -176,12 +177,42 @@ function store(input, mode, table) {
     //cleanup();
 }
 function cleanup() {
-    endedAt = 0;
     activeblock = {
         D: {},
         M: {},
         S: {}
     };
+    currentfile = {
+        summary: {
+            pnd_ver: "",
+            taxfiler_id: "",
+            form_variant: "",
+            branch: "",
+            filing_no: "",
+            filing_month: "",
+            filing_year: "",
+            book_name: "",
+            book_filedate: "",
+            total_transactions: "",
+            total_income: "",
+            total_tax_due: "",
+            program_ver: "",
+            overview: [
+                { entries: "", total_income: "", total_tax_due: "" },
+                { entries: "", total_income: "", total_tax_due: "" },
+                { entries: "", total_income: "", total_tax_due: "" },
+                { entries: "", total_income: "", total_tax_due: "" },
+                { entries: "", total_income: "", total_tax_due: "" }
+            ]
+        },
+        records: [[], [], [], [], []]
+    };
+    chunks = [[], [], []];
+    subchunks = [[], [], []];
+    ext_db;
+    breakCharacter = "0124";
+    entries = [];
+    endedAt = 0;
 }
 function chunkBreak(input, output, length) {
     for (var i = 0; i < input.length; i++) {

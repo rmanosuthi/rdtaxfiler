@@ -17,8 +17,23 @@ function update_ui() {
         document.getElementById("summary_table").rows[i + 1].cells[4].innerHTML = currentfile.summary.overview[i].total_tax_due;
     }
     for (let i = 0; i < currentfile.records.length; i++) {
-        if (getRecordCount(i) < currentfile.records[i].length) {
-            addRow()
+        clearRow(i, -1);
+        let recordDiff = currentfile.records[i].length - getRecordCount(i);
+        if (recordDiff > 0) {
+            addRow(i, Math.abs(recordDiff));
+        } else if (recordDiff < 0) {
+            delRow(i, Math.abs(recordDiff));
+        }
+        for (let j = 0; j < currentfile.records[i].length; j++) {
+            setCell(i, j, 0, getRecordCount(i) + 1);
+            setCell(i, j, 1, currentfile.records[i][j].C);
+            setCell(i, j, 2, currentfile.records[i][j].D);
+            setCell(i, j, 3, currentfile.records[i][j].E);
+            setCell(i, j, 4, currentfile.records[i][j].F);
+            setCell(i, j, 5, currentfile.records[i][j].G);
+            setCell(i, j, 6, currentfile.records[i][j].H);
+            setCell(i, j, 7, currentfile.records[i][j].I);
+            setCell(i, j, 8, currentfile.records[i][j].J);
         }
     }
 }
@@ -64,6 +79,46 @@ function addRow(form, count) {
             }
             cells[j].appendChild(cellContent[j]);
         }
+    }
+}
+function delRow(form, count) {
+    for (let i = 0; i < count; i++) {
+        document.getElementById("t" + form).deleteRow(-1);
+    }
+}
+function clearRow(form, row) {
+    if (row == -1) {
+        for (let i = 1; i < document.getElementById("t" + form).rows.length; i++) {
+            for (let j = 1; j < 9; j++) {
+                if (j != 5) {
+                    document.getElementById("t" + form).rows[i].cells[j].children[0].value = "";
+                } else {
+                    for (let k = 0; k < 3; k++) {
+                        document.getElementById("t" + form).rows[i].cells[j].children[0].children[k].value = "";
+                    }
+                }
+            }
+        }
+    } else if (row > 0) {
+        for (let j = 1; j < 9; j++) {
+            if (j != 5) {
+                document.getElementById("t" + form).rows[row + 1].cells[j].children[0].value = "";
+            } else {
+                for (let k = 0; k < 3; k++) {
+                    document.getElementById("t" + form).rows[row + 1].cells[j].children[0].children[k].value = "";
+                }
+            }
+        }
+    }
+}
+function setCell(form, row, cell, value) {
+    console.log(form + "," + row + "," + cell + "," + value);
+    if (cell != 5) {
+        document.getElementById("t" + form).rows[row + 1].cells[cell].children[0].value = value;
+    } else {
+        document.getElementById("t" + form).rows[row + 1].cells[cell].children[0].children[2].value = value.substring(0, 4);
+        document.getElementById("t" + form).rows[row + 1].cells[cell].children[0].children[1].value = value.substring(5, 7);
+        document.getElementById("t" + form).rows[row + 1].cells[cell].children[0].children[0].value = value.substring(8);
     }
 }
 function onlyShow(page) {
