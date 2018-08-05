@@ -182,7 +182,7 @@ html, body {
     margin-right: 3em;
 }
 .attachment_table {
-    margin-bottom: 1em;
+    margin: 0em;
 }
 .attachment_table tr {
     display: flex;
@@ -237,3 +237,9 @@ html, body {
 .attachment_table td:nth-of-type(7) {width: 8em;}
 .attachment_table td:nth-of-type(8) {width: 8em;}
 .attachment_table td:nth-of-type(9) {width: 5em;}
+
+.tablemod {
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+}
