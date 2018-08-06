@@ -1,17 +1,39 @@
 import JSZip from "./jszip";
 import "./tismap";
+import {RDFile, RDData, RDField, RDFieldType} from "./rdfile";
 export class RDFUtil {
-    private zip: any = new JSZip();
-    private rawFile: RDRawfile = new RDRawfile();
-    private currentFile: RDFile = new RDFile();
+    private zipFile: any = new JSZip();
+    private data: RDData = new RDData();
+    private rdFile: RDFile = new RDFile();
     private breakCharacter: string = "1024";
-    private decodingEndedAt:number = 0;
     constructor() { }
-    public Load(input: string[]): void {
-        
+    public Load(input: Array<string>): void {
+        this.cleanup();
+        this.data.D.Raw = input[0];
+        this.data.M.Raw = input[0];
+        this.data.S.Raw = input[2];
+        this.data.D.Blocks = this.separateEntries(this.chunkBreak(this.data.D.Raw, 4));
+        this.data.M.Blocks = this.chunkBreak(this.data.M.Raw, 4);
+        this.data.S.Blocks = this.separateEntries(this.chunkBreak(this.data.S.Raw, 4));
     }
-    private blockToRaw(): void {
-
+    private blockToField(input: Array<Array<string>>, mode: RDFieldType): void {
+        for (let i = 0; i < input.length; i++) {
+            if (mode == RDFieldType.D) {
+                let db: Array<string> = input[i];
+                let de = 0;
+                this.data.D.Fields[i].A = this.decodeDecimal(db, de, 3, -1);
+                this.data.D.Fields[i].B = this.decodeDecimal(db, de, de + 2, -1);
+                this.data.D.Fields[i].C = this.decodeDecimal(db, de, de + 2, -1);
+                this.data.D.Fields[i].D = this.decodeTIS(db, de, de + 3, -1);
+                this.data.D.Fields[i].E = this.decodeTIS(db, de, de + 2, -1);
+                this.data.D.Fields[i].F = this.decodeTIS(db, de, de + 2, -1);
+                this.data.D.Fields[i].G = this.decodeDecimal(db, de, de + 2, -1);
+                this.data.D.Fields[i].H = this.decodeDecimal(db, de, de + 2, -1);
+                this.data.D.Fields[i].I = this.decodeDecimal(db, de, de + 2, -1);
+                this.data.D.Fields[i].J = this.decodeDecimal(db, de, de + 2, -1);
+                this.data.D.Fields[i].K = this.decodeDecimal(db, de, de + 2, -1);
+            }
+        }
     }
     private chunkBreak(input: string, length: number): Array<string> {
         let output: Array<string>;
@@ -27,9 +49,9 @@ export class RDFUtil {
         let output: Array<Array<string>>;
         let occurrences: Array<number>;
         for (let i = 0; i < input.length; i++) {
-            if (input[i] == breakCharacter &&
-                input[i + 1] == breakCharacter &&
-                input[i + 2] == breakCharacter) {
+            if (input[i] == this.breakCharacter &&
+                input[i + 1] == this.breakCharacter &&
+                input[i + 2] == this.breakCharacter) {
                 occurrences[occurrences.length] = i;
                 i += 2;
             }
@@ -46,17 +68,17 @@ export class RDFUtil {
     private validate(): boolean {
         return true;
     }
-    private decodeDecimal(input: Array<string>, start: number, length: number): string {
+    private decodeDecimal(input: Array<string>, counter: number, start: number, length: number): string {
         let result:string;
         if (length > 0) {
             for (let i = start; i < start + length; i++) {
                 result += String.fromCharCode(parseInt(input[i], 10));
             }
-            this.decodingEndedAt = start + length - 1;
+            counter = start + length - 1;
         } else { // indeterminate length
             for (let i = start; i < input.length; i++) {
-                if (input[i] == breakCharacter) {
-                    endedAt = i - 1;
+                if (input[i] == this.breakCharacter) {
+                    counter = i - 1;
                     break;
                 } else {
                     result += String.fromCharCode(parseInt(input[i], 10));
@@ -65,7 +87,7 @@ export class RDFUtil {
         }
         return result;
     }
-    private decodeTIS(input: Array<string>, start: number, length: number): string {
+    private decodeTIS(input: Array<string>, counter: number, start: number, length: number): string {
         let result:string;
         if (length > 0) {
             for (let i = start; i < start + length; i++) {
@@ -73,11 +95,11 @@ export class RDFUtil {
                     result += tismap[input[i]];
                 }
             }
-            endedAt = start + length - 1;
+            counter = start + length - 1;
         } else { // indeterminate length
             for (let i = start; i < input.length; i++) {
-                if (input[i] == breakCharacter) {
-                    endedAt = i - 1;
+                if (input[i] == this.breakCharacter) {
+                    counter = i - 1;
                     break;
                 } else {
                     if (Object.keys(tismap).includes(input[i]) === true) {
@@ -89,7 +111,7 @@ export class RDFUtil {
         return result;
     }
     private cleanup(): void {
-        this.rawFile = new RDRawfile();
-        this.currentFile = new RDFile();
+        this.data = new RDData();
+        this.rdFile = new RDFile();
     }
 }

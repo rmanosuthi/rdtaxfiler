@@ -1,53 +1,8 @@
+import "./rdrecord";
+
 // refer to '/docs'
-class RDRawfile {
-    D: {
-        A: string;
-        B: string;
-        C: string;
-        D: string;
-        E: string;
-        F: string;
-        G: string;
-        H: string;
-        I: string;
-        J: string;
-        K: string;
-    };
-    M: {
-        A: string;
-        B: string;
-        C: string;
-        D: string;
-        E: string;
-        F: string;
-        G: string;
-        H: string;
-        I: string;
-        J: string;
-        K: string;
-        L: string;
-        M: string;
-        N: string;
-        O: string;
-        P: string;
-        Q: string;
-        R: string;
-        S: string;
-        T: string;
-        U: string;
-        V: string;
-        W: string;
-    };
-    S: {
-        A: string;
-        B: string;
-        C: string;
-        D: string;
-        E: string;
-    };
-    constructor() {}
-}
-class RDFile {
+// RDData -> RDFile
+export class RDFile {
     Summary: {
         PndVersion: number;
         TaxFilerID: number;
@@ -62,4 +17,28 @@ class RDFile {
     };
     Records: Array<Array<RDRecord>>;
     constructor() {}
+}
+export class RDData {
+    D: {
+        Raw: string;
+        Blocks: Array<Array<string>>;
+        Fields: Array<RDField>;
+    };
+    M: {
+        Raw: string;
+        Blocks: Array<string>;
+        Fields: RDField;
+    };
+    S: {
+        Raw: string;
+        Blocks: Array<Array<string>>;
+        Fields: Array<RDField>;
+    };
+    constructor() {}
+}
+export interface RDField {
+    [key: string]: string;
+}
+export enum RDFieldType {
+    D, M, S
 }
