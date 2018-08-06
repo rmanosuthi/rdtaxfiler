@@ -1,44 +1,47 @@
-import {RDRecord} from "./rdrecord";
-import {RDCondition} from "./rdcondition";
-
 // refer to '/docs'
 // RDData -> RDFile
-export class RDFile {
-    Summary: {
-        PndVersion: number;
-        TaxFilerID: number;
-        FormVariant: number;
-        Branch: number;
-        FilingNo: number;
-        FilingMonth: number;
-        FilingYear: number;
-        BookName: string;
-        BookDate: Date;
-        Version: string;
-    };
-    Records: Array<Array<RDRecord>>;
-    constructor() {}
-    public DataToFile(input: RDData): void {
+class RDFile {
+    constructor() {
+        this.Summary = {
+            PndVersion: -1,
+            TaxFilerID: -1,
+            FormVariant: -1,
+            Branch: -1,
+            FilingNo: -1,
+            FilingMonth: -1,
+            FilingYear: -1,
+            BookName: "-1",
+            BookDate: new Date(),
+            Version: "-1"
+        };
+        this.Records = Array();
+    }
+    DataToFile(input) {
         this.dataToFile(input.D.Fields, RDFieldType.D);
         this.dataToFile(input.M.Fields, RDFieldType.M);
     }
-    private dataToFile(fields: Array<RDField>, mode: RDFieldType): void {
+    dataToFile(fields, mode) {
         switch (mode) {
             case RDFieldType.D:
                 for (let i = 0; i < fields.length; i++) {
-                    let tab: number = -1;
+                    let tab = -1;
                     let record = new RDRecord();
                     if (fields[i].A == "401N") {
                         tab = 0;
-                    } else if (fields[i].A == "401S") {
+                    }
+                    else if (fields[i].A == "401S") {
                         tab = 1;
-                    } else if (fields[i].A == "4012") {
+                    }
+                    else if (fields[i].A == "4012") {
                         tab = 2;
-                    } else if (fields[i].A == "402I") {
+                    }
+                    else if (fields[i].A == "402I") {
                         tab = 3;
-                    } else if (fields[i].A == "402E") {
+                    }
+                    else if (fields[i].A == "402E") {
                         tab = 4;
-                    } else {
+                    }
+                    else {
                         throw new Error("Invalid tab type at data.D.Fields[" + i.toString() + "]");
                     }
                     record.Entry = parseInt(fields[i].B);
@@ -74,27 +77,28 @@ export class RDFile {
         }
     }
 }
-export class RDData {
-    D: {
-        Raw: string;
-        Blocks: Array<Array<string>>;
-        Fields: Array<RDField>;
-    };
-    M: {
-        Raw: string;
-        Blocks: Array<string>;
-        Fields: Array<RDField>;
-    };
-    S: {
-        Raw: string;
-        Blocks: Array<Array<string>>;
-        Fields: Array<RDField>;
-    };
-    constructor() {}
+class RDData {
+    constructor() {
+        this.D = {
+            Raw: "-1",
+            Blocks: new Array(),
+            Fields: new Array()
+        };
+        this.M = {
+            Raw: "-1",
+            Blocks: new Array(),
+            Fields: new Array()
+        };
+        this.S = {
+            Raw: "-1",
+            Blocks: new Array(),
+            Fields: new Array()
+        };
+    }
 }
-export interface RDField {
-    [key: string]: string;
-}
-export enum RDFieldType {
-    D, M, S
-}
+var RDFieldType;
+(function (RDFieldType) {
+    RDFieldType[RDFieldType["D"] = 0] = "D";
+    RDFieldType[RDFieldType["M"] = 1] = "M";
+    RDFieldType[RDFieldType["S"] = 2] = "S";
+})(RDFieldType || (RDFieldType = {}));
