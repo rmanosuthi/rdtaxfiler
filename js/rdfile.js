@@ -23,6 +23,9 @@ class RDFile {
     dataToFile(fields, mode) {
         switch (mode) {
             case RDFieldType.D:
+                for (let i = 0; i < 5; i++) {
+                    this.Records.push(new Array());
+                }
                 for (let i = 0; i < fields.length; i++) {
                     let tab = -1;
                     let record = new RDRecord();
