@@ -1,7 +1,7 @@
 // refer to '/docs'
 // RDData -> RDFile
 class RDFile {
-    constructor() {
+    init() {
         this.Summary = {
             PndVersion: -1,
             TaxFilerID: -1,
@@ -14,13 +14,16 @@ class RDFile {
             BookDate: new Date(),
             Version: "-1"
         };
-        this.Records = Array();
+        this.Records = new Array();
     }
-    DataToFile(input) {
-        this.dataToFile(input.D.Fields, RDFieldType.D);
-        this.dataToFile(input.M.Fields, RDFieldType.M);
+    constructor() {
+        this.init();
     }
-    dataToFile(fields, mode) {
+    LoadFromData(input) {
+        this.fieldsToFile(input.D.Fields, RDFieldType.D);
+        this.fieldsToFile(input.M.Fields, RDFieldType.M);
+    }
+    fieldsToFile(fields, mode) {
         switch (mode) {
             case RDFieldType.D:
                 for (let i = 0; i < 5; i++) {

@@ -1,5 +1,5 @@
 class RDRecord {
-    constructor() {
+    init() {
         this.Entry = -1;
         this.ID = -1;
         this.Prefix = "";
@@ -9,5 +9,8 @@ class RDRecord {
         this.Amount = -1;
         this.Tax = -1;
         this.Conditions = RDCondition.NONE;
+    }
+    constructor() {
+        this.init();
     }
 }
