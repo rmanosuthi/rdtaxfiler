@@ -32,11 +32,11 @@ class RDFile {
     constructor() {
         this.init();
     }
-    public DataToFile(input: RDData): void {
-        this.dataToFile(input.D.Fields, RDFieldType.D);
-        this.dataToFile(input.M.Fields, RDFieldType.M);
+    public LoadFromData(input: RDData): void {
+        this.fieldsToFile(input.D.Fields, RDFieldType.D);
+        this.fieldsToFile(input.M.Fields, RDFieldType.M);
     }
-    private dataToFile(fields: Array<RDField>, mode: RDFieldType): void {
+    private fieldsToFile(fields: Array<RDField>, mode: RDFieldType): void {
         switch (mode) {
             case RDFieldType.D:
                 for (let i = 0; i < 5; i++) {
