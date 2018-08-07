@@ -1,20 +1,39 @@
 class RDData {
-    D = {
-        Raw: "-1",
-        Blocks: new Array<Array<string>>(),
-        Fields: new Array<RDField>()
+    D: {
+        Raw: string;
+        Blocks: Array<Array<string>>;
+        Fields: Array<RDField>;
     };
-    M = {
-        Raw: "-1",
-        Blocks: new Array<string>(),
-        Fields: new Array<RDField>()
+    M: {
+        Raw: string;
+        Blocks: Array<string>;
+        Fields: Array<RDField>;
     };
-    S = {
+    S: {
         Raw: "-1",
-        Blocks: new Array<Array<string>>(),
-        Fields: new Array<RDField>()
+        Blocks: Array<Array<string>>;
+        Fields: Array<RDField>;
     };
-    constructor() {}
+    private init(): void {
+        this.D = {
+            Raw: "-1",
+            Blocks: new Array<Array<string>>(),
+            Fields: new Array<RDField>()
+        };
+        this.M = {
+            Raw: "-1",
+            Blocks: new Array<string>(),
+            Fields: new Array<RDField>()
+        };
+        this.S = {
+            Raw: "-1",
+            Blocks: new Array<Array<string>>(),
+            Fields: new Array<RDField>()
+        };
+    }
+    constructor() {
+        this.init();
+    }
     public FileToData(input: RDFile): void {
         this.fileToFields(input);
     }

@@ -1,20 +1,37 @@
 // refer to '/docs'
 // RDData -> RDFile
 class RDFile {
-    Summary = {
-        PndVersion: -1,
-        TaxFilerID: -1,
-        FormVariant: -1,
-        Branch: -1,
-        FilingNo: -1,
-        FilingMonth: -1,
-        FilingYear: -1,
-        BookName: "-1",
-        BookDate: new Date(),
-        Version: "-1"
-    };
-    Records = Array<Array<RDRecord>>();
-    constructor() {}
+    Summary: {
+        PndVersion: number;
+        TaxFilerID: number;
+        FormVariant: number;
+        Branch: number;
+        FilingNo: number;
+        FilingMonth: number;
+        FilingYear: number;
+        BookName: string;
+        BookDate: Date;
+        Version: string;
+    }
+    Records: Array<Array<RDRecord>>;
+    private init(): void {
+        this.Summary = {
+            PndVersion: -1,
+            TaxFilerID: -1,
+            FormVariant: -1,
+            Branch: -1,
+            FilingNo: -1,
+            FilingMonth: -1,
+            FilingYear: -1,
+            BookName: "-1",
+            BookDate: new Date(),
+            Version: "-1"
+        };
+        this.Records = new Array<Array<RDRecord>>();
+    }
+    constructor() {
+        this.init();
+    }
     public DataToFile(input: RDData): void {
         this.dataToFile(input.D.Fields, RDFieldType.D);
         this.dataToFile(input.M.Fields, RDFieldType.M);
