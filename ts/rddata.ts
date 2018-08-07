@@ -10,7 +10,7 @@ class RDData {
         Fields: Array<RDField>;
     };
     S: {
-        Raw: "-1",
+        Raw: string;
         Blocks: Array<Array<string>>;
         Fields: Array<RDField>;
     };
