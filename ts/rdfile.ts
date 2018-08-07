@@ -91,6 +91,22 @@ class RDData {
         Fields: new Array<RDField>()
     };
     constructor() {}
+    public FileToData(input: RDFile): void {
+        for (let i = 0; i < input.Records.length; i++) {
+            this.D.Fields.push(new RDField());
+            for (let j = 0; j < input.Records[i].length; j++) {
+                this.D.Fields[i].A = RDConverter.TabNumToString(i);
+                this.D.Fields[j].B = j.toString();
+                this.D.Fields[j].C = input.Records[i][j].ID.toString();
+                this.D.Fields[j].D = input.Records[i][j].Prefix;
+                this.D.Fields[j].E = input.Records[i][j].FirstName;
+                this.D.Fields[j].F = input.Records[i][j].LastName;
+                this.D.Fields[j].G = RDConverter.DateObjectToString(input.Records[i][j].Date);
+                this.D.Fields[j].H = input.Records[i][j].Amount.toFixed(2);
+                this.D.Fields[j].I = input.Records[i][j].Tax.toFixed(2);
+            }
+        }
+    }
 }
 
 class RDField {
