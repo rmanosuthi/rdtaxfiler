@@ -36,14 +36,12 @@ class RDFUtil {
                     this.data.D.Fields[i].H = this.decodeDecimal(db, de, de.value + 2, -1);
                     this.data.D.Fields[i].I = this.decodeDecimal(db, de, de.value + 2, -1);
                     this.data.D.Fields[i].J = this.decodeDecimal(db, de, de.value + 2, -1);
-                    this.data.D.Fields[i].K = this.decodeDecimal(db, de, de.value + 2, -1);
                 } else if (mode == RDFieldType.S) {
                     this.data.S.Fields.push(new RDField());
                     this.data.S.Fields[i].A = this.decodeDecimal(db, de, 3, 4);
                     this.data.S.Fields[i].B = this.decodeDecimal(db, de, 8, -1);
                     this.data.S.Fields[i].C = this.decodeDecimal(db, de, de.value + 2, -1);
                     this.data.S.Fields[i].D = this.decodeDecimal(db, de, de.value + 2, -1);
-                    this.data.S.Fields[i].E = this.decodeDecimal(db, de, de.value + 2, -1);
                 } else {
                     console.log("Wrong RDFieldType, received " + mode.toString());
                 }
@@ -78,7 +76,6 @@ class RDFUtil {
                 this.data.M.Fields[0].T = this.decodeDecimal(db, de, de.value + 3, -1);
                 this.data.M.Fields[0].U = this.decodeDecimal(db, de, de.value + 2, -1);
                 this.data.M.Fields[0].V = this.decodeDecimal(db, de, de.value + 2, -1);
-                this.data.M.Fields[0].W = this.decodeDecimal(db, de, de.value + 2, -1);
             }
         }
     }
