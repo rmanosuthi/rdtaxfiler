@@ -22,26 +22,30 @@ class RDFUtil {
         if (typeof input[0] !== 'string') {
             for (let i = 0; i < input.length; i++) {
                 let db = input[i];
-                let de = 0;
+                let de = {
+                    value: 0
+                };
                 if (mode == RDFieldType.D) {
+                    this.data.D.Fields.push(new RDField());
                     this.data.D.Fields[i].A = this.decodeDecimal(db, de, 3, -1);
-                    this.data.D.Fields[i].B = this.decodeDecimal(db, de, de + 2, -1);
-                    this.data.D.Fields[i].C = this.decodeDecimal(db, de, de + 2, -1);
-                    this.data.D.Fields[i].D = this.decodeTIS(db, de, de + 3, -1);
-                    this.data.D.Fields[i].E = this.decodeTIS(db, de, de + 2, -1);
-                    this.data.D.Fields[i].F = this.decodeTIS(db, de, de + 2, -1);
-                    this.data.D.Fields[i].G = this.decodeDecimal(db, de, de + 2, -1);
-                    this.data.D.Fields[i].H = this.decodeDecimal(db, de, de + 2, -1);
-                    this.data.D.Fields[i].I = this.decodeDecimal(db, de, de + 2, -1);
-                    this.data.D.Fields[i].J = this.decodeDecimal(db, de, de + 2, -1);
-                    this.data.D.Fields[i].K = this.decodeDecimal(db, de, de + 2, -1);
+                    this.data.D.Fields[i].B = this.decodeDecimal(db, de, de.value + 2, -1);
+                    this.data.D.Fields[i].C = this.decodeDecimal(db, de, de.value + 2, -1);
+                    this.data.D.Fields[i].D = this.decodeTIS(db, de, de.value + 3, -1);
+                    this.data.D.Fields[i].E = this.decodeTIS(db, de, de.value + 2, -1);
+                    this.data.D.Fields[i].F = this.decodeTIS(db, de, de.value + 2, -1);
+                    this.data.D.Fields[i].G = this.decodeDecimal(db, de, de.value + 2, -1);
+                    this.data.D.Fields[i].H = this.decodeDecimal(db, de, de.value + 2, -1);
+                    this.data.D.Fields[i].I = this.decodeDecimal(db, de, de.value + 2, -1);
+                    this.data.D.Fields[i].J = this.decodeDecimal(db, de, de.value + 2, -1);
+                    this.data.D.Fields[i].K = this.decodeDecimal(db, de, de.value + 2, -1);
                 }
                 else if (mode == RDFieldType.S) {
+                    this.data.S.Fields.push(new RDField());
                     this.data.S.Fields[i].A = this.decodeDecimal(db, de, 3, 4);
                     this.data.S.Fields[i].B = this.decodeDecimal(db, de, 8, -1);
-                    this.data.S.Fields[i].C = this.decodeDecimal(db, de, de + 2, -1);
-                    this.data.S.Fields[i].D = this.decodeDecimal(db, de, de + 2, -1);
-                    this.data.S.Fields[i].E = this.decodeDecimal(db, de, de + 2, -1);
+                    this.data.S.Fields[i].C = this.decodeDecimal(db, de, de.value + 2, -1);
+                    this.data.S.Fields[i].D = this.decodeDecimal(db, de, de.value + 2, -1);
+                    this.data.S.Fields[i].E = this.decodeDecimal(db, de, de.value + 2, -1);
                 }
                 else {
                     console.log("Wrong RDFieldType, received " + mode.toString());
@@ -51,30 +55,33 @@ class RDFUtil {
         if (typeof input[0] === "string") {
             if (mode == RDFieldType.M) {
                 let db = input;
-                let de = 0;
+                let de = {
+                    value: 0
+                };
+                this.data.M.Fields.push(new RDField());
                 this.data.M.Fields[0].A = this.decodeDecimal(db, de, 3, -1);
-                this.data.M.Fields[0].B = this.decodeDecimal(db, de, de + 4, -1);
-                this.data.M.Fields[0].C = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].D = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].E = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].F = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].G = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].H = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].I = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].J = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].K = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].L = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].M = this.decodeDecimal(db, de, de + 3, -1);
-                this.data.M.Fields[0].N = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].O = this.decodeDecimal(db, de, de + 3, -1);
-                this.data.M.Fields[0].P = this.decodeDecimal(db, de, de + 14, -1);
-                this.data.M.Fields[0].Q = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].R = this.decodeDecimal(db, de, de + 6, -1);
-                this.data.M.Fields[0].S = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].T = this.decodeDecimal(db, de, de + 3, -1);
-                this.data.M.Fields[0].U = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].V = this.decodeDecimal(db, de, de + 2, -1);
-                this.data.M.Fields[0].W = this.decodeDecimal(db, de, de + 2, -1);
+                this.data.M.Fields[0].B = this.decodeDecimal(db, de, de.value + 4, -1);
+                this.data.M.Fields[0].C = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].D = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].E = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].F = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].G = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].H = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].I = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].J = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].K = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].L = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].M = this.decodeDecimal(db, de, de.value + 3, -1);
+                this.data.M.Fields[0].N = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].O = this.decodeDecimal(db, de, de.value + 3, -1);
+                this.data.M.Fields[0].P = this.decodeDecimal(db, de, de.value + 14, -1);
+                this.data.M.Fields[0].Q = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].R = this.decodeDecimal(db, de, de.value + 6, -1);
+                this.data.M.Fields[0].S = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].T = this.decodeDecimal(db, de, de.value + 3, -1);
+                this.data.M.Fields[0].U = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].V = this.decodeDecimal(db, de, de.value + 2, -1);
+                this.data.M.Fields[0].W = this.decodeDecimal(db, de, de.value + 2, -1);
             }
         }
     }
@@ -82,7 +89,6 @@ class RDFUtil {
         let output = new Array();
         for (let i = 0; i < input.length; i++) {
             if (i % length === 0) {
-                console.log("New array at " + i.toString());
                 output.push("");
             }
             output[Math.floor(i / length)] += input.charAt(i);
@@ -114,16 +120,19 @@ class RDFUtil {
     }
     decodeDecimal(input, counter, start, length) {
         let result = "";
+        console.log("counter: " + counter.toString());
+        console.log("start: " + start.toString());
+        console.log("length:" + length.toString());
         if (length > 0) {
             for (let i = start; i < start + length; i++) {
                 result += String.fromCharCode(parseInt(input[i], 10));
             }
-            counter = start + length - 1;
+            counter.value = start + length - 1;
         }
         else { // indeterminate length
             for (let i = start; i < input.length; i++) {
-                if (input[i] == this.breakCharacter) {
-                    counter = i - 1;
+                if (input[i] == "0124") {
+                    counter.value = i - 1;
                     break;
                 }
                 else {
@@ -131,22 +140,24 @@ class RDFUtil {
                 }
             }
         }
+        console.log(result);
         return result;
     }
     decodeTIS(input, counter, start, length) {
         let result = "";
+        console.log("start: " + start.toString());
         if (length > 0) {
             for (let i = start; i < start + length; i++) {
                 if (Object.keys(tismap).indexOf(input[i]) != -1) {
                     result += tismap[input[i]];
                 }
             }
-            counter = start + length - 1;
+            counter.value = start + length - 1;
         }
         else { // indeterminate length
             for (let i = start; i < input.length; i++) {
-                if (input[i] == this.breakCharacter) {
-                    counter = i - 1;
+                if (input[i] == "0124") {
+                    counter.value = i - 1;
                     break;
                 }
                 else {

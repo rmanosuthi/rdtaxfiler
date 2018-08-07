@@ -89,7 +89,8 @@ class RDData {
     };
     constructor() {}
 }
-interface RDField {
+
+class RDField {
     [key: string]: string;
 }
 enum RDFieldType {

@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es6",
-        "outDir": "./js/",
-        "rootDir": "./ts/"
+        "outDir": "js/",
+        "rootDir": "ts/"
     }
 }

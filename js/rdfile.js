@@ -96,6 +96,8 @@ class RDData {
         };
     }
 }
+class RDField {
+}
 var RDFieldType;
 (function (RDFieldType) {
     RDFieldType[RDFieldType["D"] = 0] = "D";
