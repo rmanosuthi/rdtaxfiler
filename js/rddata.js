@@ -23,17 +23,15 @@ class RDData {
         this.fileToFields(input);
     }
     LoadFromRaw(input) {
-        if (input.length == 2) {
-            this.D.Raw = input[0];
-            this.M.Raw = input[1];
-            this.S.Raw = input[2];
-            this.D.Blocks = this.separateBlocks(this.rawToBlocks(this.D.Raw, 4));
-            this.M.Blocks = this.rawToBlocks(this.M.Raw, 4);
-            this.S.Blocks = this.separateBlocks(this.rawToBlocks(this.S.Raw, 4));
-            this.blocksToFields(this.D.Blocks, RDFieldType.D);
-            this.blocksToFields(this.M.Blocks, RDFieldType.M);
-            this.blocksToFields(this.S.Blocks, RDFieldType.S);
-        }
+        this.D.Raw = input[0];
+        this.M.Raw = input[1];
+        this.S.Raw = input[2];
+        this.D.Blocks = this.separateBlocks(this.rawToBlocks(this.D.Raw, 4));
+        this.M.Blocks = this.rawToBlocks(this.M.Raw, 4);
+        this.S.Blocks = this.separateBlocks(this.rawToBlocks(this.S.Raw, 4));
+        this.blocksToFields(this.D.Blocks, RDFieldType.D);
+        this.blocksToFields(this.M.Blocks, RDFieldType.M);
+        this.blocksToFields(this.S.Blocks, RDFieldType.S);
     }
     fileToFields(input) {
         for (let i = 0; i < input.Records.length; i++) {

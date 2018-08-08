@@ -38,7 +38,6 @@ class RDData {
         this.fileToFields(input);
     }
     public LoadFromRaw(input: Array<string>): void {
-        if (input.length == 2) {
             this.D.Raw = input[0];
             this.M.Raw = input[1];
             this.S.Raw = input[2];
@@ -48,7 +47,6 @@ class RDData {
             this.blocksToFields(this.D.Blocks, RDFieldType.D);
             this.blocksToFields(this.M.Blocks, RDFieldType.M);
             this.blocksToFields(this.S.Blocks, RDFieldType.S);
-        }
     }
     private fileToFields(input: RDFile): void {
         for (let i = 0; i < input.Records.length; i++) {
