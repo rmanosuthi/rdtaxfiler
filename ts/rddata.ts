@@ -34,19 +34,20 @@ class RDData {
     constructor() {
         this.init();
     }
-    public LoadFromFile(input: RDFile): void {
+    public Export(input: RDFile): void {
         this.fileToFields(input);
+        this.fieldsToBlocks();
     }
     public LoadFromRaw(input: Array<string>): void {
-            this.D.Raw = input[0];
-            this.M.Raw = input[1];
-            this.S.Raw = input[2];
-            this.D.Blocks = this.separateBlocks(this.rawToBlocks(this.D.Raw, 4));
-            this.M.Blocks = this.rawToBlocks(this.M.Raw, 4);
-            this.S.Blocks = this.separateBlocks(this.rawToBlocks(this.S.Raw, 4));
-            this.blocksToFields(this.D.Blocks, RDFieldType.D);
-            this.blocksToFields(this.M.Blocks, RDFieldType.M);
-            this.blocksToFields(this.S.Blocks, RDFieldType.S);
+        this.D.Raw = input[0];
+        this.M.Raw = input[1];
+        this.S.Raw = input[2];
+        this.D.Blocks = this.separateBlocks(this.rawToBlocks(this.D.Raw, 4));
+        this.M.Blocks = this.rawToBlocks(this.M.Raw, 4);
+        this.S.Blocks = this.separateBlocks(this.rawToBlocks(this.S.Raw, 4));
+        this.blocksToFields(this.D.Blocks, RDFieldType.D);
+        this.blocksToFields(this.M.Blocks, RDFieldType.M);
+        this.blocksToFields(this.S.Blocks, RDFieldType.S);
     }
     private fileToFields(input: RDFile): void {
         for (let i = 0; i < input.Records.length; i++) {
@@ -88,6 +89,152 @@ class RDData {
             this.S.Fields[i].D = RDFieldManager.GetTotalFieldTax(input.Records[i]).toString();
         }
     }
+    private fieldsToBlocks(): void {
+        for (let i = 0; i < this.D.Fields.length; i++) {
+            this.D.Blocks[i] = new Array<string>();
+            this.addBlockBreak(3, i, RDFieldType.D);
+            this.addBlockCode(this.D.Fields[i].A, i, RDFieldType.D);
+            this.addBlockBreak(1, i, RDFieldType.D);
+            this.addBlockCode(this.D.Fields[i].B, i, RDFieldType.D);
+            this.addBlockBreak(1, i, RDFieldType.D);
+            this.addBlockCode(this.D.Fields[i].C, i, RDFieldType.D);
+            this.addBlockBreak(2, i, RDFieldType.D);
+            this.addBlockCode(this.D.Fields[i].D, i, RDFieldType.D);
+            this.addBlockBreak(1, i, RDFieldType.D);
+            this.addBlockCode(this.D.Fields[i].E, i, RDFieldType.D);
+            this.addBlockBreak(1, i, RDFieldType.D);
+            this.addBlockCode(this.D.Fields[i].F, i, RDFieldType.D);
+            this.addBlockBreak(1, i, RDFieldType.D);
+            this.addBlockCode(this.D.Fields[i].G, i, RDFieldType.D);
+            this.addBlockBreak(1, i, RDFieldType.D);
+            this.addBlockCode(this.D.Fields[i].H, i, RDFieldType.D);
+            this.addBlockBreak(1, i, RDFieldType.D);
+            this.addBlockCode(this.D.Fields[i].I, i, RDFieldType.D);
+            this.addBlockBreak(1, i, RDFieldType.D);
+            this.addBlockCode(this.D.Fields[i].J, i, RDFieldType.D);
+            this.addBlockBreak(1, i, RDFieldType.D);
+            this.D.Blocks[i].push(this.getHashBlock(i, RDFieldType.D));
+        }
+        this.M.Blocks = new Array<string>();
+        this.addBlockBreak(3, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].A, 0, RDFieldType.M);
+        this.addBlockBreak(3, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].B, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].C, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].D, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].E, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].F, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].G, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].H, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].I, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].J, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].K, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].L, 0, RDFieldType.M);
+        this.addBlockBreak(2, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].M, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].N, 0, RDFieldType.M);
+        this.addBlockBreak(2, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].O, 0, RDFieldType.M);
+        this.addBlockBreak(13, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].P, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].Q, 0, RDFieldType.M);
+        this.addBlockBreak(5, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].R, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].S, 0, RDFieldType.M);
+        this.addBlockBreak(2, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].T, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].U, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.addBlockCode(this.M.Fields[0].V, 0, RDFieldType.M);
+        this.addBlockBreak(1, 0, RDFieldType.M);
+        this.M.Blocks.push(this.getHashBlock(0, RDFieldType.M));
+        for (let i = 0; i < this.S.Fields.length; i++) {
+            this.S.Blocks[i] = new Array<string>();
+            this.addBlockBreak(3, i, RDFieldType.S);
+            this.addBlockCode(this.S.Fields[i].A, i, RDFieldType.S);
+            this.addBlockBreak(1, i, RDFieldType.S);
+            this.addBlockCode(this.S.Fields[i].B, i, RDFieldType.S);
+            this.addBlockBreak(1, i, RDFieldType.S);
+            this.addBlockCode(this.S.Fields[i].C, i, RDFieldType.S);
+            this.addBlockBreak(1, i, RDFieldType.S);
+            this.addBlockCode(this.S.Fields[i].D, i, RDFieldType.S);
+            this.addBlockBreak(1, i, RDFieldType.S);
+            this.S.Blocks[i].push(this.getHashBlock(i, RDFieldType.S));
+        }
+    }
+    private addBlockCode(input: string, block: number, type: RDFieldType) {
+        switch (type) {
+            case RDFieldType.D:
+                for (let i = 0; i < input.length; i++) {
+                    this.D.Blocks[block].push(RDConverter.PrefixZero(input.charCodeAt(i), 4));
+                }
+                break;
+            case RDFieldType.M:
+                for (let i = 0; i < input.length; i++) {
+                    this.M.Blocks.push(RDConverter.PrefixZero(input.charCodeAt(i), 4));
+                }
+                break;
+            case RDFieldType.S:
+                for (let i = 0; i < input.length; i++) {
+                    this.S.Blocks[block].push(RDConverter.PrefixZero(input.charCodeAt(i), 4));
+                }
+                break;
+        }
+    }
+    private addBlockBreak(count: number, block: number, type: RDFieldType) {
+        switch (type) {
+            case RDFieldType.D:
+                for (let i = 0; i < count; i++) {
+                    this.D.Blocks[block].push("0124");
+                }
+                break;
+            case RDFieldType.D:
+                for (let i = 0; i < count; i++) {
+                    this.M.Blocks.push("0124");
+                }
+                break;
+            case RDFieldType.S:
+                for (let i = 0; i < count; i++) {
+                    this.S.Blocks[block].push("0124");
+                }
+                break;
+        }
+    }
+    private getHashBlock(block: number, type: RDFieldType): string {
+        let sum: number = 0;
+        switch (type) {
+            case RDFieldType.D:
+                for (let i = 0; i < this.D.Blocks[block].length; i++) {
+                    sum += parseInt(this.D.Blocks[block][i], 10);
+                }
+                break;
+                case RDFieldType.M:
+                for (let i = 0; i < this.M.Blocks.length; i++) {
+                    sum += parseInt(this.M.Blocks[i], 10);
+                }
+                break;
+                case RDFieldType.S:
+                for (let i = 0; i < this.S.Blocks[block].length; i++) {
+                    sum += parseInt(this.S.Blocks[block][i], 10);
+                }
+                break;
+        }
+        return sum.toString().substr(sum.toString().length - 4, 4);
+    }
     private rawToBlocks(input: string, length: number): Array<string> {
         let output: Array<string> = new Array<string>();
         for (let i = 0; i < input.length; i++) {
@@ -121,7 +268,7 @@ class RDData {
     private blocksToFields(input: Array<Array<string>> | Array<string>, mode: RDFieldType): void {
         if (typeof input[0] !== 'string') {
             for (let i = 0; i < input.length; i++) {
-                let db: Array<string> = <Array<string>> input[i];
+                let db: Array<string> = <Array<string>>input[i];
                 let de = { // fix to pass by reference
                     value: 0
                 };
@@ -150,7 +297,7 @@ class RDData {
         }
         if (typeof input[0] === "string") {
             if (mode == RDFieldType.M) {
-                let db: Array<string> = <Array<string>> input;
+                let db: Array<string> = <Array<string>>input;
                 let de = {
                     value: 0
                 };

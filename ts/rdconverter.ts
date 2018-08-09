@@ -17,10 +17,10 @@ class RDConverter {
     public static DateObjectToString(date: Date): string {
         return date.getFullYear().toString() + "-" +
                (date.getMonth() + 1).toString() + "-" +
-               this.prefixZero(date.getDate(), 2);
+               this.PrefixZero(date.getDate(), 2);
 
     }
-    private static prefixZero(input: number, digits: number): string {
+    public static PrefixZero(input: number, digits: number): string {
         let output = "";
         for (let i = 0; i < digits - RDConverter.getDigits(input); i++) {
             output += "0";
@@ -36,6 +36,6 @@ class RDConverter {
         return counter;
     }
     public static BranchNumToString(branch: number): string {
-        return this.prefixZero(branch, 5);
+        return this.PrefixZero(branch, 5);
     }
 }
