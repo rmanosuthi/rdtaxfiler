@@ -11,57 +11,54 @@ class RDFUtil {
     private validate(): boolean {
         return true;
     }
-    public static decodeDecimal(input: Array<string>, counter: {value: number}, start: number, length: number): string {
-        let result:string = "";
-        console.log("counter: " + counter.toString());
-        console.log("start: " + start.toString());
-        console.log("length:" + length.toString());
-        if (length > 0) {
-            for (let i = start; i < start + length; i++) {
-                result += String.fromCharCode(parseInt(input[i], 10));
-            }
-            counter.value = start + length - 1;
-        } else { // indeterminate length
-            for (let i = start; i < input.length; i++) {
-                if (input[i] == "0124") {
-                    counter.value = i - 1;
-                    break;
-                } else {
-                    result += String.fromCharCode(parseInt(input[i], 10));
-                }
-            }
-        }
-        console.log(result);
-        return result;
-    }
-    public static decodeTIS(input: Array<string>, counter: {value: number}, start: number, length: number): string {
-        let result:string = "";
-        console.log("start: " + start.toString());
-        if (length > 0) {
-            for (let i = start; i < start + length; i++) {
-                if (Object.keys(tismap).indexOf(input[i]) != -1) {
-                    result += tismap[input[i]];
-                }
-            }
-            counter.value = start + length - 1;
-        } else { // indeterminate length
-            for (let i = start; i < input.length; i++) {
-                if (input[i] == "0124") {
-                    counter.value = i - 1;
-                    break;
-                } else {
+    public static Decode(input: Array<string>, counter: {value: number}, start: number, length: number, isTIS: boolean): string {
+        let result: string = "";
+        if (isTIS === true) {
+            if (length > 0) {
+                for (let i = start; i < start + length; i++) {
                     if (Object.keys(tismap).indexOf(input[i]) != -1) {
                         result += tismap[input[i]];
+                    }
+                }
+            } else {
+                for (let i = start; i < input.length; i++) {
+                    if (input[i] == "0124") {
+                        counter.value = i - 1;
+                        break;
+                    } else {
+                        if (Object.keys(tismap).indexOf(input[i]) != -1) {
+                            result += tismap[input[i]];
+                        }
+                    }
+                }
+            }
+        } else {
+            if (length > 0) {
+                for (let i = start; i < start + length; i++) {
+                    result += String.fromCharCode(parseInt(input[i], 10));
+                }
+                counter.value = start + length - 1;
+            } else { // indeterminate length
+                for (let i = start; i < input.length; i++) {
+                    if (input[i] == "0124") {
+                        counter.value = i - 1;
+                        break;
+                    } else {
+                        result += String.fromCharCode(parseInt(input[i], 10));
                     }
                 }
             }
         }
         return result;
     }
-    private encode(input: string): Array<string> {
+    public static Encode(input: string, isTIS: boolean): Array<string> {
         let result = new Array<string>();
         for (let i = 0; i < input.length; i++) {
-            result.push(RDConverter.PrefixZero(input.charCodeAt(i), 4));
+            if (isTIS === true) {
+                result.push(Object.keys(tismap).find(key => tismap[key] === input[i]));
+            } else {
+                result.push(RDConverter.PrefixZero(input.charCodeAt(i), 4));
+            }
         }
         return result;
     }
