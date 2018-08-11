@@ -91,10 +91,6 @@ class RDFile {
         }
     }
 }
-
-class RDField {
-    [key: string]: string;
-}
 enum RDFieldType {
     D, M, S
 }

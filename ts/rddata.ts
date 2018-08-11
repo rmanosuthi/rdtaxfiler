@@ -222,12 +222,12 @@ class RDData {
                     sum += parseInt(this.D.Blocks[block][i], 10);
                 }
                 break;
-                case RDFieldType.M:
+            case RDFieldType.M:
                 for (let i = 0; i < this.M.Blocks.length; i++) {
                     sum += parseInt(this.M.Blocks[i], 10);
                 }
                 break;
-                case RDFieldType.S:
+            case RDFieldType.S:
                 for (let i = 0; i < this.S.Blocks[block].length; i++) {
                     sum += parseInt(this.S.Blocks[block][i], 10);
                 }
