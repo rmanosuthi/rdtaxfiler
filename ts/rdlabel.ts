@@ -1,11 +1,11 @@
 class RDLabel {
     public Content: string;
-    private position: number;
-    private length: number;
-    private initialBreak: number;
+    public Position: number;
+    public Length: number;
+    public InitialBreak: number;
     constructor(position: number, length: number, initialBreak: number) {
-        this.position = position;
-        this.length = length;
-        this.initialBreak = initialBreak;
+        this.Position = position;
+        this.Length = length;
+        this.InitialBreak = initialBreak;
     }
 }

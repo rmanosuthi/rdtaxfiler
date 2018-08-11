@@ -1,5 +1,6 @@
 class RDField {
     public Label: Array<RDLabel>;
+    public Position = {value: -1};
     constructor(type: RDFieldType) {
         switch (type) {
             case RDFieldType.D:
