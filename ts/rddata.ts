@@ -113,25 +113,6 @@ class RDData {
             this.S.Blocks[i].push(this.getHashBlock(i, RDFieldType.S));
         }
     }
-    private addBlockCode(input: string, block: number, type: RDFieldType) {
-        switch (type) {
-            case RDFieldType.D:
-                for (let i = 0; i < input.length; i++) {
-                    this.D.Blocks[block].push(RDConverter.PrefixZero(input.charCodeAt(i), 4));
-                }
-                break;
-            case RDFieldType.M:
-                for (let i = 0; i < input.length; i++) {
-                    this.M.Blocks.push(RDConverter.PrefixZero(input.charCodeAt(i), 4));
-                }
-                break;
-            case RDFieldType.S:
-                for (let i = 0; i < input.length; i++) {
-                    this.S.Blocks[block].push(RDConverter.PrefixZero(input.charCodeAt(i), 4));
-                }
-                break;
-        }
-    }
     private addBlockBreak(count: number, block: number, type: RDFieldType) {
         switch (type) {
             case RDFieldType.D:

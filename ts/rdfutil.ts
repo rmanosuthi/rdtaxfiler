@@ -58,6 +58,13 @@ class RDFUtil {
         }
         return result;
     }
+    private encode(input: string): Array<string> {
+        let result = new Array<string>();
+        for (let i = 0; i < input.length; i++) {
+            result.push(RDConverter.PrefixZero(input.charCodeAt(i), 4));
+        }
+        return result;
+    }
     private cleanup(): void {
         this.data = new RDData();
         this.file = new RDFile();
