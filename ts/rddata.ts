@@ -16,17 +16,17 @@ class RDData {
     };
     private init(): void {
         this.D = {
-            Raw: "-1",
+            Raw: "",
             Blocks: new Array<Array<string>>(),
             Fields: new Array<RDField>()
         };
         this.M = {
-            Raw: "-1",
+            Raw: "",
             Blocks: new Array<string>(),
             Fields: new Array<RDField>()
         };
         this.S = {
-            Raw: "-1",
+            Raw: "",
             Blocks: new Array<Array<string>>(),
             Fields: new Array<RDField>()
         };
@@ -38,6 +38,7 @@ class RDData {
         console.log(JSON.stringify(input.Summary));
         this.fileToFields(input);
         this.fieldsToBlocks();
+        this.blocksToRaw();
     }
     public LoadFromRaw(input: Array<string>): void {
         this.D.Raw = input[0];
@@ -152,6 +153,21 @@ class RDData {
         }
         console.log("S done");
         console.log("Finished loading");
+    }
+    private blocksToRaw(): void {
+        for (let i = 0; i < this.D.Blocks.length; i++) {
+            for (let j = 0; j < this.D.Blocks[i].length; j++) {
+                this.D.Raw += this.D.Blocks[i][j];
+            }
+        }
+        for (let i = 0; i < this.M.Blocks.length; i++) {
+            this.M.Raw += this.M.Blocks[i];
+        }
+        for (let i = 0; i < this.S.Blocks.length; i++) {
+            for (let j = 0; j < this.S.Blocks[i].length; j++) {
+                this.S.Raw += this.S.Blocks[i][j];
+            }
+        }
     }
     private addBlockBreak(count: number, block: number, type: RDFieldType) {
         switch (type) {
