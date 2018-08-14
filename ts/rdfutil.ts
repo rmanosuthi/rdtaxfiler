@@ -12,7 +12,6 @@ class RDFUtil {
         return true;
     }
     public static BlocksToFields(input: Array<string>, field: RDField, blockSize: number): void {
-        console.log("input: " + input);
         for (let i = 0; i < field.Label.length; i++) {
             field.Position += field.Label[i].InitialBreak;
             if (field.Label[i].Length == -1) {
@@ -31,14 +30,12 @@ class RDFUtil {
     public static SeekBreak(input: Array<string>, start: number): number {
         for (let i = start; i < input.length; i++) {
             if (input[i] === "0124") {
-                console.log("length: " + (i - start).toString());
                 return i - start;
             }
         }
         return -1;
     }
     public static Decode(input: Array<string>, isTIS: boolean): string {
-        console.log("Parsing : " + input + "$");
         let result: string = "";
         for (let i = 0; i < input.length; i++) {
             if (isTIS === true) {
