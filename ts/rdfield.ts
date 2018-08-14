@@ -14,8 +14,7 @@ class RDField {
                     new RDLabel(-1, -1, 1, false),     // G
                     new RDLabel(-1, -1, 1, false),     // H
                     new RDLabel(-1, -1, 1, false),     // I
-                    new RDLabel(-1, -1, 1, false),     // J
-                    new RDLabel(-1, -1, 1, false)      // K
+                    new RDLabel(-1, -1, 1, false)     // J
                 ];
                 break;
             case RDFieldType.M:
@@ -41,8 +40,7 @@ class RDField {
                     new RDLabel(-1, -1, 1, false),     // S
                     new RDLabel(-1, -1, 2, false),     // T
                     new RDLabel(-1, -1, 1, false),     // U
-                    new RDLabel(-1, -1, 1, false),     // V
-                    new RDLabel(-1, -1, 1, false),     // W
+                    new RDLabel(-1, -1, 1, false)     // V
                 ];
                 break;
             case RDFieldType.S:
@@ -50,8 +48,7 @@ class RDField {
                     new RDLabel(0, -1, 3, false),      // A
                     new RDLabel(-1, -1, 1, false),     // B
                     new RDLabel(-1, -1, 1, false),     // C
-                    new RDLabel(-1, -1, 1, false),     // D
-                    new RDLabel(-1, -1, 1, false)      // E
+                    new RDLabel(-1, -1, 1, false)     // D
                 ];
                 break;
         }
