@@ -7,7 +7,7 @@ class RDRecord {
     Date: Date;
     Amount: number;
     Tax: number;
-    Conditions: RDCondition;
+    Conditions: number;
     private init(): void {
         this.Entry = -1;
         this.ID = -1;
@@ -17,7 +17,7 @@ class RDRecord {
         this.Date = new Date();
         this.Amount = -1;
         this.Tax = -1;
-        this.Conditions = RDCondition.NONE;
+        this.Conditions = 0;
     }
     constructor() {
         this.init();
