@@ -2,9 +2,9 @@
 // RDData -> RDFile
 class RDFile {
     Summary: {
-        PndVersion: number;
+        PndVersion: string;
         TaxFilerID: number;
-        FormVariant: number;
+        FormVariant: string;
         Branch: number;
         FilingNo: number;
         FilingMonth: number;
@@ -16,9 +16,9 @@ class RDFile {
     Records: Array<Array<RDRecord>>;
     private init(): void {
         this.Summary = {
-            PndVersion: -1,
+            PndVersion: "",
             TaxFilerID: -1,
-            FormVariant: -1,
+            FormVariant: "",
             Branch: -1,
             FilingNo: -1,
             FilingMonth: -1,
@@ -71,16 +71,16 @@ class RDFile {
                 }
                 break;
             case RDFieldType.M:
-                this.Summary.PndVersion = parseInt(fields[0].Label[0].Content);
+                this.Summary.PndVersion = fields[0].Label[0].Content;
                 this.Summary.TaxFilerID = parseInt(fields[0].Label[1].Content);
-                this.Summary.FormVariant = parseInt(fields[0].Label[2].Content);
+                this.Summary.FormVariant = fields[0].Label[2].Content;
                 this.Summary.Branch = parseInt(fields[0].Label[3].Content);
                 this.Summary.FilingNo = parseInt(fields[0].Label[4].Content);
                 this.Summary.FilingMonth = parseInt(fields[0].Label[5].Content);
                 this.Summary.FilingYear = parseInt(fields[0].Label[6].Content);
                 this.Summary.BookName = fields[0].Label[7].Content;
                 this.Summary.BookDate = new Date(fields[0].Label[8].Content);
-                this.Summary.Version = fields[0].Label[9].Content;
+                this.Summary.Version = fields[0].Label[14].Content;
                 break;
             case RDFieldType.S:
                 throw new Error("Section S should not be used in the decoding process");
