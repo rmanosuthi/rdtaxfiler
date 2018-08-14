@@ -11,42 +11,22 @@ class RDFUtil {
     private validate(): boolean {
         return true;
     }
-    public static Decode(input: Array<string>, counter: {value: number}, start: number, length: number, isTIS: boolean): string {
+    public static BlocksToField(input: Array<string>, field: RDField, blockSize: number): void {
+        for (let i = 0; i < field.Label.length; i++) {
+            field.Position += field.Label[i].InitialBreak;
+            field.Label[i].Content = RDFUtil.Decode(input.slice(field.Position, field.Label[i].Length), field.Label[i].IsTIS);
+            field.Position += field.Label[i].Length;
+        }
+    }
+    public static Decode(input: Array<string>, isTIS: boolean): string {
         let result: string = "";
-        if (isTIS === true) {
-            if (length > 0) {
-                for (let i = start; i < start + length; i++) {
-                    if (Object.keys(tismap).indexOf(input[i]) != -1) {
-                        result += tismap[input[i]];
-                    }
+        for (let i = 0; i < input.length; i++) {
+            if (isTIS === true) {
+                if (Object.keys(tismap).indexOf(input[i]) != 0) {
+                    result += tismap[input[i]];
                 }
             } else {
-                for (let i = start; i < input.length; i++) {
-                    if (input[i] == "0124") {
-                        counter.value = i - 1;
-                        break;
-                    } else {
-                        if (Object.keys(tismap).indexOf(input[i]) != -1) {
-                            result += tismap[input[i]];
-                        }
-                    }
-                }
-            }
-        } else {
-            if (length > 0) {
-                for (let i = start; i < start + length; i++) {
-                    result += String.fromCharCode(parseInt(input[i], 10));
-                }
-                counter.value = start + length - 1;
-            } else { // indeterminate length
-                for (let i = start; i < input.length; i++) {
-                    if (input[i] == "0124") {
-                        counter.value = i - 1;
-                        break;
-                    } else {
-                        result += String.fromCharCode(parseInt(input[i], 10));
-                    }
-                }
+                result += String.fromCharCode(parseInt(input[i]));
             }
         }
         return result;
