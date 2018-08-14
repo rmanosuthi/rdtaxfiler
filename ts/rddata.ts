@@ -34,7 +34,8 @@ class RDData {
     constructor() {
         this.init();
     }
-    public Export(input: RDFile): void {
+    public LoadFromFile(input: RDFile): void {
+        console.log(JSON.stringify(input.Summary));
         this.fileToFields(input);
         this.fieldsToBlocks();
     }
@@ -57,22 +58,25 @@ class RDData {
         }
     }
     private fileToFields(input: RDFile): void {
+        console.log(JSON.stringify(input.Records));
+        let currentField = 0;
         for (let i = 0; i < input.Records.length; i++) {
-            this.D.Fields.push(new RDField(RDFieldType.D));
             for (let j = 0; j < input.Records[i].length; j++) {
-                this.D.Fields[i].Label[0].Content = RDConverter.TabNumToString(i);
-                this.D.Fields[j].Label[1].Content = j.toString();
-                this.D.Fields[j].Label[2].Content = input.Records[i][j].ID.toString();
-                this.D.Fields[j].Label[3].Content = input.Records[i][j].Prefix;
-                this.D.Fields[j].Label[4].Content = input.Records[i][j].FirstName;
-                this.D.Fields[j].Label[5].Content = input.Records[i][j].LastName;
-                this.D.Fields[j].Label[6].Content = RDConverter.DateObjectToString(input.Records[i][j].Date);
-                this.D.Fields[j].Label[7].Content = input.Records[i][j].Amount.toFixed(2);
-                this.D.Fields[j].Label[8].Content = input.Records[i][j].Tax.toFixed(2);
+                this.D.Fields.push(new RDField(RDFieldType.D));
+                this.D.Fields[currentField].Label[0].Content = RDConverter.TabNumToString(i);
+                this.D.Fields[currentField].Label[1].Content = j.toString();
+                this.D.Fields[currentField].Label[2].Content = input.Records[i][j].ID.toString();
+                this.D.Fields[currentField].Label[3].Content = input.Records[i][j].Prefix;
+                this.D.Fields[currentField].Label[4].Content = input.Records[i][j].FirstName;
+                this.D.Fields[currentField].Label[5].Content = input.Records[i][j].LastName;
+                this.D.Fields[currentField].Label[6].Content = RDConverter.DateObjectToString(input.Records[i][j].Date);
+                this.D.Fields[currentField].Label[7].Content = input.Records[i][j].Amount.toFixed(2);
+                this.D.Fields[currentField].Label[8].Content = input.Records[i][j].Tax.toFixed(2);
+                currentField++;
             }
         }
         this.M.Fields.push(new RDField(RDFieldType.M));
-        this.M.Fields[0].Label[0].Content = input.Summary.Version;
+        this.M.Fields[0].Label[0].Content = input.Summary.PndVersion;
         this.M.Fields[0].Label[1].Content = input.Summary.TaxFilerID.toString();
         this.M.Fields[0].Label[2].Content = input.Summary.FormVariant.toString();
         this.M.Fields[0].Label[3].Content = RDConverter.BranchNumToString(input.Summary.Branch);
@@ -97,31 +101,48 @@ class RDData {
         }
     }
     private fieldsToBlocks(): void {
+        // omit previous checksum
+        console.log("Started fields to blocks");
+        console.log("D start");
         for (let i = 0; i < this.D.Fields.length; i++) {
             this.D.Blocks[i] = new Array<string>();
-            for (let j = 0; j < this.D.Fields[i].Label.length; j++) {
+            for (let j = 0; j < this.D.Fields[i].Label.length - 1; j++) {
+                console.log("Label " + j.toString());
+                console.log("Add block break");
                 this.addBlockBreak(this.D.Fields[i].Label[j].InitialBreak, i, RDFieldType.D);
-                this.D.Blocks[i] = this.D.Blocks[i].concat(RDFUtil.Encode(this.D.Fields[i].Label[j].Content, this.D.Fields[i].Label[j].IsTIS));
+                console.log("Concat");
+                if (this.D.Fields[i].Label[j].Content != "") {
+                    this.D.Blocks[i] = this.D.Blocks[i].concat(RDFUtil.Encode(this.D.Fields[i].Label[j].Content, this.D.Fields[i].Label[j].IsTIS));
+                }
+                console.log("End concat");
             }
-            this.getHashBlock(i, RDFieldType.D);
+            console.log("Get hash block");
             this.D.Blocks[i].push(this.getHashBlock(i, RDFieldType.D));
         }
+        console.log("D done");
+        console.log("M start");
         this.M.Blocks = new Array<string>();
-        for (let i = 0; i < this.M.Fields[0].Label.length; i++) {
+        for (let i = 0; i < this.M.Fields[0].Label.length - 1; i++) {
             this.addBlockBreak(this.M.Fields[0].Label[i].InitialBreak, i, RDFieldType.M);
-            this.M.Blocks = this.M.Blocks.concat(RDFUtil.Encode(this.M.Fields[0].Label[i].Content, this.M.Fields[0].Label[i].IsTIS));
+            if (this.M.Fields[0].Label[i].Content != "") {
+                this.M.Blocks = this.M.Blocks.concat(RDFUtil.Encode(this.M.Fields[0].Label[i].Content, this.M.Fields[0].Label[i].IsTIS));
+            }
         }
-        this.getHashBlock(0, RDFieldType.M);
         this.M.Blocks.push(this.getHashBlock(0, RDFieldType.M));
+        console.log("M done");
+        console.log("S start");
         for (let i = 0; i < this.S.Fields.length; i++) {
             this.S.Blocks[i] = new Array<string>();
-            for (let j = 0; j < this.S.Fields[i].Label.length; j++) {
+            for (let j = 0; j < this.S.Fields[i].Label.length - 1; j++) {
                 this.addBlockBreak(this.S.Fields[i].Label[j].InitialBreak, i, RDFieldType.S);
-                this.S.Blocks[i] = this.S.Blocks[i].concat(RDFUtil.Encode(this.S.Fields[i].Label[j].Content, this.S.Fields[i].Label[j].IsTIS));
+                if (this.S.Fields[i].Label[j].Content != "") {
+                    this.S.Blocks[i] = this.S.Blocks[i].concat(RDFUtil.Encode(this.S.Fields[i].Label[j].Content, this.S.Fields[i].Label[j].IsTIS));
+                }
             }
-            this.getHashBlock(i, RDFieldType.S);
             this.S.Blocks[i].push(this.getHashBlock(i, RDFieldType.S));
         }
+        console.log("S done");
+        console.log("Finished loading");
     }
     private addBlockBreak(count: number, block: number, type: RDFieldType) {
         switch (type) {
@@ -142,7 +163,7 @@ class RDData {
                 break;
         }
     }
-    private getHashBlock(block: number, type: RDFieldType): string {
+    /*private getHashBlock(block: number, type: RDFieldType): string {
         let sum: number = 0;
         switch (type) {
             case RDFieldType.D:
@@ -162,6 +183,9 @@ class RDData {
                 break;
         }
         return sum.toString().substr(sum.toString().length - 4, 4);
+    }*/
+    private getHashBlock(block: number, type: RDFieldType): string {
+        return "9999";
     }
     private rawToBlocks(input: string, length: number): Array<string> {
         let output: Array<string> = new Array<string>();

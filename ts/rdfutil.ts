@@ -11,6 +11,10 @@ class RDFUtil {
     private validate(): boolean {
         return true;
     }
+    public Reload() {
+        this.data = new RDData();
+        this.data.LoadFromFile(this.file);
+    }
     public static BlocksToFields(input: Array<string>, field: RDField, blockSize: number): void {
         for (let i = 0; i < field.Label.length; i++) {
             field.Position += field.Label[i].InitialBreak;
@@ -48,13 +52,13 @@ class RDFUtil {
         }
         return result;
     }
-    public static Encode(input: string, isTIS: boolean): Array<string> {
+    public static Encode(string_to_encode: string, isTIS: boolean): Array<string> {
         let result = new Array<string>();
-        for (let i = 0; i < input.length; i++) {
+        for (let i = 0; i < string_to_encode.length; i++) {
             if (isTIS === true) {
-                result.push(Object.keys(tismap).find(key => tismap[key] === input[i]));
+                result.push(Object.keys(tismap).find(key => tismap[key] === string_to_encode[i]));
             } else {
-                result.push(RDConverter.PrefixZero(input.charCodeAt(i), 4));
+                result.push(RDConverter.PrefixZero(string_to_encode.charCodeAt(i), 4));
             }
         }
         return result;
