@@ -94,22 +94,25 @@ class RDData {
             this.D.Blocks[i] = new Array<string>();
             for (let j = 0; j < this.D.Fields[i].Label.length; j++) {
                 this.addBlockBreak(this.D.Fields[i].Label[j].InitialBreak, i, RDFieldType.D);
-                this.addBlockCode(this.D.Fields[i].Label[j].Content, i, RDFieldType.D);
+                this.D.Blocks[i] = this.D.Blocks[i].concat(RDFUtil.Encode(this.D.Fields[i].Label[j].Content, this.D.Fields[i].Label[j].IsTIS));
             }
+            this.getHashBlock(i, RDFieldType.D);
             this.D.Blocks[i].push(this.getHashBlock(i, RDFieldType.D));
         }
         this.M.Blocks = new Array<string>();
         for (let i = 0; i < this.M.Fields[0].Label.length; i++) {
             this.addBlockBreak(this.M.Fields[0].Label[i].InitialBreak, i, RDFieldType.M);
-            this.addBlockCode(this.M.Fields[0].Label[i].Content, i, RDFieldType.M);
+            this.M.Blocks = this.M.Blocks.concat(RDFUtil.Encode(this.M.Fields[0].Label[i].Content, this.M.Fields[0].Label[i].IsTIS));
         }
+        this.getHashBlock(0, RDFieldType.M);
         this.M.Blocks.push(this.getHashBlock(0, RDFieldType.M));
         for (let i = 0; i < this.S.Fields.length; i++) {
             this.S.Blocks[i] = new Array<string>();
             for (let j = 0; j < this.S.Fields[i].Label.length; j++) {
                 this.addBlockBreak(this.S.Fields[i].Label[j].InitialBreak, i, RDFieldType.S);
-                this.addBlockCode(this.S.Fields[i].Label[j].Content, i, RDFieldType.S);
+                this.S.Blocks[i] = this.S.Blocks[i].concat(RDFUtil.Encode(this.S.Fields[i].Label[j].Content, this.S.Fields[i].Label[j].IsTIS));
             }
+            this.getHashBlock(i, RDFieldType.S);
             this.S.Blocks[i].push(this.getHashBlock(i, RDFieldType.S));
         }
     }
@@ -186,28 +189,20 @@ class RDData {
     private blocksToFields(input: Array<Array<string>> | Array<string>, mode: RDFieldType): void {
         if (typeof input[0] !== 'string') {
             for (let i = 0; i < input.length; i++) {
-                let db: Array<string> = <Array<string>>input[i];
-                let de = { // fix to pass by reference
-                    value: 0
-                };
                 if (mode == RDFieldType.D) {
                     this.D.Fields.push(new RDField(RDFieldType.D));
-                    this.D.Fields[i].A = RDFUtil.decodeDecimal(db, de, 3, -1);
-                    this.D.Fields[i].B = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                    this.D.Fields[i].C = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                    this.D.Fields[i].D = RDFUtil.decodeTIS(db, de, de.value + 3, -1);
-                    this.D.Fields[i].E = RDFUtil.decodeTIS(db, de, de.value + 2, -1);
-                    this.D.Fields[i].F = RDFUtil.decodeTIS(db, de, de.value + 2, -1);
-                    this.D.Fields[i].G = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                    this.D.Fields[i].H = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                    this.D.Fields[i].I = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                    this.D.Fields[i].J = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
+                    for (let j = 0; j < this.D.Fields[i].Label.length; j++) {
+                        this.D.Fields[i].Position += this.D.Fields[i].Label[j].InitialBreak;
+                        this.D.Fields[i].Label[j].Content = RDFUtil.Decode(<Array<string>>input[i].slice(this.D.Fields[i].Position, this.D.Fields[i].Position + this.D.Fields[i].Label[j].Length), this.D.Fields[i].Label[j].IsTIS);
+                        this.D.Fields[i].Position += this.D.Fields[i].Label[j].Length;
+                    }
                 } else if (mode == RDFieldType.S) {
                     this.S.Fields.push(new RDField(RDFieldType.S));
-                    this.S.Fields[i].A = RDFUtil.decodeDecimal(db, de, 3, 4);
-                    this.S.Fields[i].B = RDFUtil.decodeDecimal(db, de, 8, -1);
-                    this.S.Fields[i].C = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                    this.S.Fields[i].D = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
+                    for (let j = 0; j < this.S.Fields[i].Label.length; j++) {
+                        this.S.Fields[i].Position += this.S.Fields[i].Label[j].InitialBreak;
+                        this.S.Fields[i].Label[j].Content = RDFUtil.Decode(<Array<string>>input[i].slice(this.D.Fields[i].Position, this.S.Fields[i].Position + this.S.Fields[i].Label[j].Length), this.S.Fields[i].Label[j].IsTIS);
+                        this.S.Fields[i].Position += this.S.Fields[i].Label[j].Length;
+                    }
                 } else {
                     console.log("Wrong RDFieldType, received " + mode.toString());
                 }
@@ -215,33 +210,12 @@ class RDData {
         }
         if (typeof input[0] === "string") {
             if (mode == RDFieldType.M) {
-                let db: Array<string> = <Array<string>>input;
-                let de = {
-                    value: 0
-                };
                 this.M.Fields.push(new RDField(RDFieldType.M));
-                this.M.Fields[0].A = RDFUtil.decodeDecimal(db, de, 3, -1);
-                this.M.Fields[0].B = RDFUtil.decodeDecimal(db, de, de.value + 4, -1);
-                this.M.Fields[0].C = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].D = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].E = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].F = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].G = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].H = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].I = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].J = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].K = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].L = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].M = RDFUtil.decodeDecimal(db, de, de.value + 3, -1);
-                this.M.Fields[0].N = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].O = RDFUtil.decodeDecimal(db, de, de.value + 3, -1);
-                this.M.Fields[0].P = RDFUtil.decodeDecimal(db, de, de.value + 14, -1);
-                this.M.Fields[0].Q = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].R = RDFUtil.decodeDecimal(db, de, de.value + 6, -1);
-                this.M.Fields[0].S = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].T = RDFUtil.decodeDecimal(db, de, de.value + 3, -1);
-                this.M.Fields[0].U = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
-                this.M.Fields[0].V = RDFUtil.decodeDecimal(db, de, de.value + 2, -1);
+                for (let i = 0; i < this.M.Fields[0].Label.length; i++) {
+                    this.D.Fields[0].Position += this.D.Fields[0].Label[i].InitialBreak;
+                    this.D.Fields[0].Label[i].Content = RDFUtil.Decode(<Array<string>>input.slice(this.M.Fields[0].Position, this.M.Fields[0].Position + this.M.Fields[0].Label[i].Length), this.M.Fields[0].Label[i].IsTIS);
+                    this.D.Fields[0].Position += this.D.Fields[0].Label[i].Length;
+                }
             }
         }
     }
