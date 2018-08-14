@@ -45,9 +45,16 @@ class RDData {
         this.D.Blocks = this.separateBlocks(this.rawToBlocks(this.D.Raw, 4));
         this.M.Blocks = this.rawToBlocks(this.M.Raw, 4);
         this.S.Blocks = this.separateBlocks(this.rawToBlocks(this.S.Raw, 4));
-        this.blocksToFields(this.D.Blocks, RDFieldType.D);
-        this.blocksToFields(this.M.Blocks, RDFieldType.M);
-        this.blocksToFields(this.S.Blocks, RDFieldType.S);
+        for (let i = 0; i < this.D.Blocks.length; i++) {
+            this.D.Fields.push(new RDField(RDFieldType.D));
+            RDFUtil.BlocksToFields(this.D.Blocks[i], this.D.Fields[i], 4);
+        }
+        this.M.Fields.push(new RDField(RDFieldType.M));
+        RDFUtil.BlocksToFields(this.M.Blocks, this.M.Fields[0], 4);
+        for (let i = 0; i < this.S.Blocks.length; i++) {
+            this.S.Fields.push(new RDField(RDFieldType.S));
+            RDFUtil.BlocksToFields(this.S.Blocks[i], this.S.Fields[i], 4);
+        }
     }
     private fileToFields(input: RDFile): void {
         for (let i = 0; i < input.Records.length; i++) {
@@ -185,38 +192,5 @@ class RDData {
             }
         }
         return output;
-    }
-    private blocksToFields(input: Array<Array<string>> | Array<string>, mode: RDFieldType): void {
-        if (typeof input[0] !== 'string') {
-            for (let i = 0; i < input.length; i++) {
-                if (mode == RDFieldType.D) {
-                    this.D.Fields.push(new RDField(RDFieldType.D));
-                    for (let j = 0; j < this.D.Fields[i].Label.length; j++) {
-                        this.D.Fields[i].Position += this.D.Fields[i].Label[j].InitialBreak;
-                        this.D.Fields[i].Label[j].Content = RDFUtil.Decode(<Array<string>>input[i].slice(this.D.Fields[i].Position, this.D.Fields[i].Position + this.D.Fields[i].Label[j].Length), this.D.Fields[i].Label[j].IsTIS);
-                        this.D.Fields[i].Position += this.D.Fields[i].Label[j].Length;
-                    }
-                } else if (mode == RDFieldType.S) {
-                    this.S.Fields.push(new RDField(RDFieldType.S));
-                    for (let j = 0; j < this.S.Fields[i].Label.length; j++) {
-                        this.S.Fields[i].Position += this.S.Fields[i].Label[j].InitialBreak;
-                        this.S.Fields[i].Label[j].Content = RDFUtil.Decode(<Array<string>>input[i].slice(this.D.Fields[i].Position, this.S.Fields[i].Position + this.S.Fields[i].Label[j].Length), this.S.Fields[i].Label[j].IsTIS);
-                        this.S.Fields[i].Position += this.S.Fields[i].Label[j].Length;
-                    }
-                } else {
-                    console.log("Wrong RDFieldType, received " + mode.toString());
-                }
-            }
-        }
-        if (typeof input[0] === "string") {
-            if (mode == RDFieldType.M) {
-                this.M.Fields.push(new RDField(RDFieldType.M));
-                for (let i = 0; i < this.M.Fields[0].Label.length; i++) {
-                    this.D.Fields[0].Position += this.D.Fields[0].Label[i].InitialBreak;
-                    this.D.Fields[0].Label[i].Content = RDFUtil.Decode(<Array<string>>input.slice(this.M.Fields[0].Position, this.M.Fields[0].Position + this.M.Fields[0].Label[i].Length), this.M.Fields[0].Label[i].IsTIS);
-                    this.D.Fields[0].Position += this.D.Fields[0].Label[i].Length;
-                }
-            }
-        }
     }
 }
