@@ -66,7 +66,7 @@ class RDFile {
                     record.Date = new Date(fields[i].Label[6].Content);
                     record.Amount = parseFloat(fields[i].Label[7].Content);
                     record.Tax = parseFloat(fields[i].Label[8].Content);
-                    record.Conditions = RDCondition[RDCondition[parseInt(fields[i].Label[9].Content) + 1]];
+                    record.Conditions = parseInt(fields[i].Label[9].Content);
                     this.Records[tab].push(record);
                 }
                 break;
