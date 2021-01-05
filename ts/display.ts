@@ -1,4 +1,5 @@
 function update_ui(currentfile: RDFile) {
+    updateSummaryTable(currentfile);
     (<HTMLInputElement>document.getElementById("input_id")).value = currentfile.Summary.TaxFilerID.toString();
     (<HTMLInputElement>document.getElementById("input_branch")).value = currentfile.Summary.Branch.toString();
     if (currentfile.Summary.FilingNo == 0) {
@@ -25,16 +26,30 @@ function update_ui(currentfile: RDFile) {
             delRow(i, Math.abs(recordDiff));
         }
         for (let j = 0; j < currentfile.Records[i].length; j++) {
-            setCell(i, j, 0, getRecordCount(i) + 1);
-            setCell(i, j, 1, currentfile.Records[i][j].ID);
+            setCell(i, j, 0, (getRecordCount(i) + 1).toString());
+            setCell(i, j, 1, currentfile.Records[i][j].ID.toString());
             setCell(i, j, 2, currentfile.Records[i][j].Prefix);
             setCell(i, j, 3, currentfile.Records[i][j].FirstName);
             setCell(i, j, 4, currentfile.Records[i][j].LastName);
-            setCell(i, j, 5, currentfile.Records[i][j].Date);
-            setCell(i, j, 6, currentfile.Records[i][j].Amount);
-            setCell(i, j, 7, currentfile.Records[i][j].Tax);
-            setCell(i, j, 8, currentfile.Records[i][j].Conditions);
+            setCellDate(i, j, 5, currentfile.Records[i][j].Date);
+            setCell(i, j, 6, currentfile.Records[i][j].Amount.toString());
+            setCell(i, j, 7, currentfile.Records[i][j].Tax.toString());
+            setCell(i, j, 8, currentfile.Records[i][j].Conditions.toString());
         }
+    }
+}
+
+function updateSummaryTable(f: RDFile): void {
+    let t = (<HTMLTableElement>document.getElementById("summary_table")).tBodies[0];
+    let i = 1; // intentional
+    for (let records of f.Records) {
+        let sum_entries = records.map((rec) => rec.Entry).reduce((acc, e) => acc + e, 0);
+        let sum_income = records.map((rec) => rec.Amount).reduce((acc, e) => acc + e, 0);
+        let sum_tax = records.map((rec) => rec.Tax).reduce((acc, e) => acc + e, 0);
+        t.rows[i].cells[2].textContent = sum_entries.toString();
+        t.rows[i].cells[3].textContent = sum_income.toString();
+        t.rows[i].cells[4].textContent = sum_tax.toString();
+        i += 1;
     }
 }
 function getRecordCount(table) {
@@ -112,16 +127,19 @@ function clearRow(form, row) {
         }
     }
 }
-function setCell(form, row, cell, value) {
+function setCellDate(form, row, cell, date: Date): void {
+    let table = (<HTMLTableElement>document.getElementById("t" + form));
+    let t_c0 = <HTMLInputElement>table.rows[row + 1].cells[cell].children[0];
+    (<HTMLInputElement>t_c0.children[2]).value = date.getFullYear().toString();
+    (<HTMLInputElement>t_c0.children[1]).value = (date.getMonth() + 1).toString();
+    (<HTMLInputElement>t_c0.children[0]).value = date.getDate().toString();
+}
+function setCell(form, row, cell, value: string) {
     console.log(form + "," + row + "," + cell + "," + value);
     let table = (<HTMLTableElement>document.getElementById("t" + form));
     let t_c0 = <HTMLInputElement>table.rows[row + 1].cells[cell].children[0];
     if (cell != 5) {
         t_c0.value = value;
-    } else {
-        (<HTMLInputElement>t_c0.children[2]).value = value.substring(0, 4);
-        (<HTMLInputElement>t_c0.children[1]).value = value.substring(5, 7);
-        (<HTMLInputElement>t_c0.children[0].children[0]).value = value.substring(8);
     }
 }
 function onlyShow(page) {
