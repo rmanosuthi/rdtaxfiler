@@ -2,9 +2,6 @@
 
 Proof-of-concept web-based tax filing program for PND. 1 form (Thailand)
 
-<img src="demo/summary.png" width="32em"/>
-<img src="demo/at1.png" width="32em"/>
-
 # Privacy Notice
 
 I've been assured by the person who generated the example file that it contains no real identifiable information, as in, the file was randomly generated. That was years ago, so if this turns out to not be the case, please notify me and I'll remove the demo file.
@@ -28,3 +25,8 @@ If your browser version is newer than early 2016, it will probably work.
 - CSS3
 - Development: TypeScript compiler
 - To build, transpile to JS then run a web server in this folder.
+
+# Gallery
+
+<img src="demo/summary.png"/>
+<img src="demo/at1.png"/>
