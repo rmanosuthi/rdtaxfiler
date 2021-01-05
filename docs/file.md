@@ -13,13 +13,13 @@ PND exports the data as a zip file containing three text files, with the archive
 
 ## File naming
 ```
-[0000000000000] [A] [xxxxx] [Pxx] [YYYY] [MM] [00].txt
+[0000000000000] [O/V] [xxxxx] [Pxx] [YYYY] [MM] [00].txt
 ```
 | Length | Functionality |
 | ------ | ------------- |
 |13|Tax filing number|
 |1|Form variant|
-|5|Branch|
+|5|Branch (HQ is ZZZZZ)|
 |3|PND type|
 |4|Numerical year (Buddhist calendar = AD + 543)|
 |2|Numerical month|
