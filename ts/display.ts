@@ -158,29 +158,46 @@ function onlyShow(page) {
             }
         }
     }
+    highlight(page + 1);
+}
+function highlight(idx: number): void {
+    for (let i = 0; i < 6; i++) {
+        if (i === idx) {
+            document.getElementById("nav_" + i).classList.add("active");
+        } else {
+            document.getElementById("nav_" + i).classList.remove("active");
+        }
+    }
 }
 function navigate() {
     switch (window.location.hash) {
         case "#attach_1":
             onlyShow(0);
+            highlight(1);
             break;
         case "#attach_2":
             onlyShow(1);
+            highlight(2);
             break;
         case "#attach_3":
             onlyShow(2);
+            highlight(3);
             break;
         case "#attach_4":
             onlyShow(3);
+            highlight(4);
             break;
         case "#attach_5":
             onlyShow(4);
+            highlight(5);
             break;
         case "#summary":
             onlyShow(-1);
+            highlight(0);
             break;
         default:
             onlyShow(-1);
+            highlight(0);
             break;
     }
 }
