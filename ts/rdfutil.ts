@@ -3,10 +3,12 @@ class RDFUtil {
     public file: RDFile = new RDFile();
     private breakCharacter: string = "0124";
     constructor() { }
-    public Load = (input: Array<string>): void => {
+    public Load(input: Array<string>): void {
         this.cleanup();
         this.data.LoadFromRaw(input);
         this.file.LoadFromData(this.data);
+        console.log(this.file);
+        update_ui(this.file);
     }
     private validate(): boolean {
         return true;
@@ -14,6 +16,7 @@ class RDFUtil {
     public Reload() {
         this.data = new RDData();
         this.data.LoadFromFile(this.file);
+        update_ui(this.file);
     }
     public static BlocksToFields(input: Array<string>, field: RDField, blockSize: number): void {
         for (let i = 0; i < field.Label.length; i++) {
